@@ -1,0 +1,159 @@
+// ============================
+// SCRIPT PARA DOCUMENTOS (DataTable)
+// ============================
+
+let tabelaDocumentos;
+let documentos = [];
+
+document.addEventListener('DOMContentLoaded', () => {
+  const btnNovo = document.getElementById('btnNovoDocumento');
+  const modalEl = document.getElementById('modalNovoDocumento');
+  const modal = new bootstrap.Modal(modalEl);
+  const form = document.getElementById('formNovoDocumento');
+  const campoBusca = document.getElementById('campoBuscaDocumento');
+
+  // Inicializa DataTable
+  tabelaDocumentos = new DataTable('#tabelaDocumentos', {
+    paging: true,
+    searching: true,
+    info: false,
+    language: {
+      url: "https://cdn.datatables.net/plug-ins/1.13.6/i18n/pt-BR.json"
+    }
+  });
+
+  carregarDocumentos();
+
+  // Botão "Novo Documento"
+  btnNovo?.addEventListener('click', () => {
+    form.reset();
+    modal.show();
+  });
+
+  // Submissão do formulário (upload/edição)
+  form?.addEventListener('submit', e => {
+    e.preventDefault();
+    const dados = new FormData(form);
+
+    fetch(`${BASE_URL}/documentos/upload_documento.php`, {
+      method: 'POST',
+      body: dados
+    })
+      .then(res => res.json())
+      .then(ret => {
+        if (ret.success) {
+          modal.hide();
+          carregarDocumentos();
+        } else {
+          alert('Erro: ' + ret.erro);
+        }
+      });
+  });
+
+  // Filtro externo opcional
+  campoBusca?.addEventListener('input', e => {
+    tabelaDocumentos.search(e.target.value).draw();
+  });
+
+  // Carrega documentos via AJAX
+  function carregarDocumentos() {
+    fetch(`${BASE_URL}/documentos/listar_documentos.php`)
+      .then(res => res.json())
+      .then(data => {
+        documentos = data;
+        tabelaDocumentos.clear().draw();
+
+        data.forEach(doc => {
+          const dataFormatada = new Date(doc.data_upload).toLocaleDateString('pt-BR');
+
+          const linha = document.createElement('tr');
+          linha.dataset.documento = JSON.stringify(doc);
+
+          linha.innerHTML = `
+            <td>${doc.nome}</td>
+            <td>${doc.categoria}</td>
+            <td>${doc.responsavel}</td>
+            <td>${dataFormatada}</td>
+            <td class="text-center">
+              <button class="btn btn-sm btn-outline-primary me-1 btn-visualizar" 
+                 data-nome="${doc.nome}" 
+                 data-arquivo="${doc.arquivo}">
+                 <i class="bi bi-eye"></i> Visualizar
+              </button>
+
+              <a href="${BASE_URL}/documentos/baixar_documento.php?arquivo=${doc.arquivo}" class="btn btn-sm btn-outline-success me-1">
+                <i class="bi bi-download"></i> Baixar
+              </a>
+
+              <a href="${BASE_URL}/documentos/editar_documento.php?id=${doc.id}" class="btn btn-sm btn-outline-warning me-1">
+                <i class="bi bi-pencil"></i> Editar
+              </a>
+
+              <button class="btn btn-sm btn-outline-danger btn-excluir" data-id="${doc.id}">
+                <i class="bi bi-trash"></i> Excluir
+              </button>
+            </td>
+          `;
+
+          tabelaDocumentos.row.add(linha).draw();
+        });
+      });
+  }
+
+  // Delegação de eventos para DataTable
+  document.addEventListener('click', e => {
+
+    // Visualizar
+    if (e.target.closest('.btn-visualizar')) {
+      const btn = e.target.closest('.btn-visualizar');
+      const nome = btn.dataset.nome;
+      const arquivo = btn.dataset.arquivo;
+      const caminho = `${BASE_URL}/documentos/uploads/${arquivo}`;
+      const extensao = arquivo.split('.').pop().toLowerCase();
+
+      let src = '';
+      if (extensao === 'pdf') {
+        src = caminho;
+      } else if (['doc', 'docx', 'xls', 'xlsx', 'ppt', 'pptx'].includes(extensao)) {
+        src = `https://docs.google.com/gview?url=${encodeURIComponent(caminho)}&embedded=true`;
+      } else {
+        src = caminho;
+      }
+
+      const modalVisualizar = new bootstrap.Modal(document.getElementById('modalVisualizarDocumento'));
+      const iframeDocumento = document.getElementById('iframeDocumento');
+      const btnBaixar = document.getElementById('btnBaixarDocumento');
+
+      iframeDocumento.src = src;
+      document.querySelector('#modalVisualizarDocumento .modal-title').innerHTML =
+        `<i class="bi bi-file-earmark-text"></i> ${nome}`;
+      btnBaixar.onclick = () => window.location.href = `${BASE_URL}/documentos/baixar_documento.php?arquivo=${arquivo}`;
+      modalVisualizar.show();
+    }
+
+    // Excluir
+    if (e.target.closest('.btn-excluir')) {
+      const btn = e.target.closest('.btn-excluir');
+      const id = btn.dataset.id;
+      if (confirm('Deseja realmente excluir este documento?')) {
+        fetch(`${BASE_URL}/documentos/excluir_documento.php`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+          body: `id=${id}`
+        })
+          .then(res => res.json())
+          .then(ret => {
+            if (ret.success) carregarDocumentos();
+            else alert('Erro ao excluir: ' + ret.erro);
+          });
+      }
+    }
+
+  });
+
+  // Limpar iframe ao fechar modal
+  document.getElementById('modalVisualizarDocumento').addEventListener('hidden.bs.modal', () => {
+    document.getElementById('iframeDocumento').src = '';
+  });
+
+});
