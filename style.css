@@ -1,16 +1,21 @@
 .pac-container {
-    z-index: 99999 !important;
+  z-index: 99999 !important;
 }
 
 
 div.dataTables_wrapper div.dt-row {
-    margin-top: 3rem !important;
+  margin-top: 3rem !important;
 }
 
 
 /* Define largura da coluna de Ações */
 #tabelaDocumentos th[aria-label="Ações"],
 #tabelaDocumentos td:last-child {
-  width: 300px;      /* força a largura */
-  white-space: nowrap; /* evita quebra de linha nos botões */
+  width: 300px;
+  /* força a largura */
+  white-space: nowrap;
+  /* evita quebra de linha nos botões */
 }
+
+
+/* teste */
