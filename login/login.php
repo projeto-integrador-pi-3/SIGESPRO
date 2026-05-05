@@ -1,7 +1,7 @@
 <?php
 session_start();
-require_once $_SERVER['DOCUMENT_ROOT'] . '/projeto_integrador_ii/config.php';
-require_once $_SERVER['DOCUMENT_ROOT'] . '/projeto_integrador_ii/conexao.php';
+require_once __DIR__ . '/../config.php';
+require_once __DIR__ . '/../conexao.php';
 
 $email = trim($_POST['email']);
 $senha = $_POST['senha'];
