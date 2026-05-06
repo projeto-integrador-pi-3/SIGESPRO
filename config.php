@@ -1,8 +1,4 @@
 <?php
-// Detectar dinamicamente o caminho base do projeto
-$host = $_SERVER['HTTP_HOST'];
-$uri = rtrim(dirname($_SERVER['SCRIPT_NAME']), '/\\');
-
-// Caminho relativo (sem http://)
-define('BASE_URL', 'http://localhost/projeto_integrador_ii');
+require_once __DIR__ . '/env_loader.php';
+define('BASE_URL', $_ENV['APP_URL'] ?? getenv('APP_URL') ?: 'http://localhost/projeto_integrador_ii');
 ?>

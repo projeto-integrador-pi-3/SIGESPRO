@@ -1,9 +1,9 @@
 <?php 
 $pageScripts = ['secretarias.js']; // Apenas scripts deste módulo
-require_once $_SERVER['DOCUMENT_ROOT'] . '/projeto_integrador_ii/login/verifica_login.php';
+require_once __DIR__ . '/../login/verifica_login.php';
 
-include $_SERVER['DOCUMENT_ROOT'] . '/projeto_integrador_ii/header.php';
-require_once $_SERVER['DOCUMENT_ROOT'] . '/projeto_integrador_ii/config.php';
+include __DIR__ . '/../header.php';
+
 ?>
 
 <!-- Título e descrição -->
@@ -74,4 +74,4 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/projeto_integrador_ii/config.php';
   </div>
 </div>
 
-<?php include $_SERVER['DOCUMENT_ROOT'] . '/projeto_integrador_ii/footer.php'; ?>
+<?php include __DIR__ . '/../footer.php'; ?>

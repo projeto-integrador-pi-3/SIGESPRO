@@ -1,9 +1,9 @@
 <?php
 $pageScripts = ['procedimentos.js']; // Apenas scripts deste módulo
-require_once $_SERVER['DOCUMENT_ROOT'] . '/projeto_integrador_ii/login/verifica_login.php';
+require_once __DIR__ . '/../login/verifica_login.php';
 
-include $_SERVER['DOCUMENT_ROOT'] . '/projeto_integrador_ii/header.php';
-require_once $_SERVER['DOCUMENT_ROOT'] . '/projeto_integrador_ii/config.php';
+include __DIR__ . '/../header.php';
+
 ?>
 
 <div class="d-flex justify-content-between align-items-center mb-4">
@@ -99,4 +99,4 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/projeto_integrador_ii/config.php';
 </table>
 
 
-<?php include $_SERVER['DOCUMENT_ROOT'] . '/projeto_integrador_ii/footer.php'; ?>
+<?php include __DIR__ . '/../footer.php'; ?>

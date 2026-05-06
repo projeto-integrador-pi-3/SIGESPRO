@@ -1,7 +1,7 @@
 <?php
 require '../conexao.php';
-require_once $_SERVER['DOCUMENT_ROOT'] . '/projeto_integrador_ii/login/verifica_login.php';
-include $_SERVER['DOCUMENT_ROOT'] . '/projeto_integrador_ii/header.php';
+require_once __DIR__ . '/../login/verifica_login.php';
+include __DIR__ . '/../header.php';
 
 $id = $_GET['id'] ?? '';
 
@@ -61,4 +61,4 @@ $doc = $stmt->get_result()->fetch_assoc();
   </form>
 </div>
 
-<?php include $_SERVER['DOCUMENT_ROOT'] . '/projeto_integrador_ii/footer.php'; ?>
+<?php include __DIR__ . '/../footer.php'; ?>
