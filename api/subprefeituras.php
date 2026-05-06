@@ -15,11 +15,10 @@ if ($_SERVER['REQUEST_METHOD'] !== 'GET') {
     exit;
 }
 
-require_once __DIR__ . '/../conexao.php';
-
 $id = isset($_GET['id']) ? (int) $_GET['id'] : null;
 
 try {
+    require_once __DIR__ . '/../conexao.php';
     if ($id !== null) {
         $stmt = $conn->prepare("SELECT * FROM subprefeituras WHERE id = ?");
         $stmt->bind_param('i', $id);
