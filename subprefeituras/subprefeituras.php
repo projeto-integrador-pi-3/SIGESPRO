@@ -1,8 +1,8 @@
 <?php 
 $pageScripts = ['subprefeituras.js']; // Apenas scripts deste módulo
-require_once $_SERVER['DOCUMENT_ROOT'] . '/projeto_integrador_ii/login/verifica_login.php';
-include $_SERVER['DOCUMENT_ROOT'] . '/projeto_integrador_ii/header.php';
-require_once $_SERVER['DOCUMENT_ROOT'] . '/projeto_integrador_ii/config.php';
+require_once __DIR__ . '/../login/verifica_login.php';
+include __DIR__ . '/../header.php';
+
 ?>
 
 <h2 class="fw-semibold text-primary mb-4">Unidades de TI e CPDU das Subprefeituras</h2>
@@ -87,4 +87,4 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/projeto_integrador_ii/config.php';
   </thead>
 </table>
 
-<?php include $_SERVER['DOCUMENT_ROOT'] . '/projeto_integrador_ii/footer.php'; ?>
+<?php include __DIR__ . '/../footer.php'; ?>

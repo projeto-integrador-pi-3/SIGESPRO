@@ -1,7 +1,7 @@
 <?php 
 $pageScripts = ['usuarios.js']; // Apenas scripts deste módulo
 
-// require_once $_SERVER['DOCUMENT_ROOT'] . '/projeto_integrador_ii/login/verifica_login.php';
+// require_once __DIR__ . '/../login/verifica_login.php';
 
 
 if (session_status() === PHP_SESSION_NONE) {
@@ -14,8 +14,10 @@ if (session_status() === PHP_SESSION_NONE) {
 // exit;
 
 
+require_once __DIR__ . '/../config.php';
+
 if (!isset($_SESSION['usuario_perfil'])) {
-    header("Location: /projeto_integrador_ii/login/login_form.php");
+    header("Location: " . BASE_URL . "/login/login_form.php");
     exit;
 }
 
@@ -25,13 +27,13 @@ if ($_SESSION['usuario_perfil'] !== 'admin') {
             <h2>Acesso Restrito</h2>
             <p>Você não tem permissão para acessar esta página.</p>
             <p>É necessário ser <strong>administrador</strong>.</p>
-            <a href='/projeto_integrador_ii/index.php'>Voltar ao início</a>
+            <a href='" . BASE_URL . "/index.php'>Voltar ao início</a>
           </div>";
     exit;
 }
 
-include $_SERVER['DOCUMENT_ROOT'] . '/projeto_integrador_ii/header.php';
-require_once $_SERVER['DOCUMENT_ROOT'] . '/projeto_integrador_ii/config.php';
+include __DIR__ . '/../header.php';
+
 
 
 
@@ -117,4 +119,4 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 </script> -->
 
-<?php include $_SERVER['DOCUMENT_ROOT'] . '/projeto_integrador_ii/footer.php'; ?>
+<?php include __DIR__ . '/../footer.php'; ?>
