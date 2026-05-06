@@ -10,8 +10,10 @@ if (!$id) {
   exit;
 }
 
-$res = $conn->query("SELECT * FROM documentos WHERE id = $id");
-$doc = $res->fetch_assoc();
+$stmt = $conn->prepare("SELECT * FROM documentos WHERE id = ?");
+$stmt->bind_param("i", $id);
+$stmt->execute();
+$doc = $stmt->get_result()->fetch_assoc();
 ?>
 
 <div class="container mt-4">
@@ -44,7 +46,7 @@ $doc = $res->fetch_assoc();
 
     <div class="mb-3">
       <label class="form-label">Arquivo Atual</label><br>
-      <a href="uploads/<?= $doc['arquivo'] ?>" target="_blank" class="btn btn-sm btn-outline-primary">
+      <a href="<?= $doc['arquivo'] ?>" target="_blank" class="btn btn-sm btn-outline-primary">
         <i class="bi bi-eye"></i> Visualizar Arquivo Atual
       </a>
     </div>
