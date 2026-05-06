@@ -1,7 +1,13 @@
 <?php
 header('Content-Type: application/json; charset=utf-8');
 header('Access-Control-Allow-Origin: *');
-header('Access-Control-Allow-Methods: GET');
+header('Access-Control-Allow-Methods: GET, OPTIONS');
+header('Access-Control-Allow-Headers: Content-Type');
+
+if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+    http_response_code(204);
+    exit;
+}
 
 if ($_SERVER['REQUEST_METHOD'] !== 'GET') {
     http_response_code(405);
@@ -10,6 +16,12 @@ if ($_SERVER['REQUEST_METHOD'] !== 'GET') {
 }
 
 require_once __DIR__ . '/../conexao.php';
+
+if ($conn->connect_error) {
+    http_response_code(503);
+    echo json_encode(['success' => false, 'message' => 'Serviço temporariamente indisponível.']);
+    exit;
+}
 
 $id = isset($_GET['id']) ? (int) $_GET['id'] : null;
 
@@ -26,7 +38,7 @@ if ($id !== null) {
         exit;
     }
 
-    echo json_encode(['success' => true, 'data' => $item]);
+    echo json_encode(['success' => true, 'data' => $item], JSON_UNESCAPED_UNICODE);
 } else {
     $result = $conn->query("SELECT * FROM subprefeituras ORDER BY nome ASC");
 
@@ -41,5 +53,5 @@ if ($id !== null) {
         'success' => true,
         'total'   => count($dados),
         'data'    => $dados,
-    ]);
+    ], JSON_UNESCAPED_UNICODE);
 }
