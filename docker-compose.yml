@@ -1,0 +1,38 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+    working_dir: /var/www/html
+    volumes:
+      - .:/var/www/html
+    ports:
+      - "8000:8000"
+    environment:
+      DB_HOST: db
+      DB_PORT: 3306
+      DB_USER: sigespro
+      DB_PASSWORD: sigespro
+      DB_NAME: sigespro
+      APP_URL: http://localhost:8000
+    command: php -S 0.0.0.0:8000 -t .
+    depends_on:
+      db:
+        condition: service_healthy
+
+  db:
+    image: mysql:8.0
+    environment:
+      MYSQL_DATABASE: sigespro
+      MYSQL_USER: sigespro
+      MYSQL_PASSWORD: sigespro
+      MYSQL_ROOT_PASSWORD: root
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./docker/init.sql:/docker-entrypoint-initdb.d/init.sql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "sigespro", "-psigespro"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
