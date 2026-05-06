@@ -49,7 +49,7 @@ try {
             'data'    => $dados,
         ], JSON_UNESCAPED_UNICODE);
     }
-} catch (Exception $e) {
+} catch (\Throwable $e) {
     http_response_code(503);
     echo json_encode(['success' => false, 'message' => 'Serviço temporariamente indisponível.'], JSON_UNESCAPED_UNICODE);
 }
