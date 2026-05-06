@@ -75,13 +75,13 @@ document.addEventListener('DOMContentLoaded', () => {
             <td>${doc.responsavel}</td>
             <td>${dataFormatada}</td>
             <td class="text-center">
-              <button class="btn btn-sm btn-outline-primary me-1 btn-visualizar" 
-                 data-nome="${doc.nome}" 
+              <button class="btn btn-sm btn-outline-primary me-1 btn-visualizar"
+                 data-nome="${doc.nome}"
                  data-arquivo="${doc.arquivo}">
                  <i class="bi bi-eye"></i> Visualizar
               </button>
 
-              <a href="${BASE_URL}/documentos/baixar_documento.php?arquivo=${doc.arquivo}" class="btn btn-sm btn-outline-success me-1">
+              <a href="${doc.arquivo}" target="_blank" class="btn btn-sm btn-outline-success me-1">
                 <i class="bi bi-download"></i> Baixar
               </a>
 
@@ -108,16 +108,15 @@ document.addEventListener('DOMContentLoaded', () => {
       const btn = e.target.closest('.btn-visualizar');
       const nome = btn.dataset.nome;
       const arquivo = btn.dataset.arquivo;
-      const caminho = `${BASE_URL}/documentos/uploads/${arquivo}`;
-      const extensao = arquivo.split('.').pop().toLowerCase();
+      const extensao = arquivo.split('?')[0].split('.').pop().toLowerCase();
 
       let src = '';
       if (extensao === 'pdf') {
-        src = caminho;
+        src = arquivo;
       } else if (['doc', 'docx', 'xls', 'xlsx', 'ppt', 'pptx'].includes(extensao)) {
-        src = `https://docs.google.com/gview?url=${encodeURIComponent(caminho)}&embedded=true`;
+        src = `https://docs.google.com/gview?url=${encodeURIComponent(arquivo)}&embedded=true`;
       } else {
-        src = caminho;
+        src = arquivo;
       }
 
       const modalVisualizar = new bootstrap.Modal(document.getElementById('modalVisualizarDocumento'));
@@ -127,7 +126,7 @@ document.addEventListener('DOMContentLoaded', () => {
       iframeDocumento.src = src;
       document.querySelector('#modalVisualizarDocumento .modal-title').innerHTML =
         `<i class="bi bi-file-earmark-text"></i> ${nome}`;
-      btnBaixar.onclick = () => window.location.href = `${BASE_URL}/documentos/baixar_documento.php?arquivo=${arquivo}`;
+      btnBaixar.onclick = () => window.open(arquivo, '_blank');
       modalVisualizar.show();
     }
 

@@ -1,24 +1,15 @@
 <?php
-
-if (!defined('BASE_URL')) {
-    include_once __DIR__ . '../config.php';
-}
-
-$targetDir = __DIR__ . "/uploads/";
-
-if (!is_dir($targetDir)) {
-    mkdir($targetDir, 0777, true);
-}
+require_once __DIR__ . '/../env_loader.php';
+require_once __DIR__ . '/../cloudinary_helper.php';
 
 if (!empty($_FILES['file']['name'])) {
-    $fileName = uniqid() . "_" . basename($_FILES['file']['name']);
-    $targetFile = $targetDir . $fileName;
+    $result = cloudinary_upload($_FILES['file']['tmp_name'], basename($_FILES['file']['name']));
 
-    if (move_uploaded_file($_FILES['file']['tmp_name'], $targetFile)) {
-        echo json_encode(["location" => BASE_URL . "/procedimentos/uploads/" . $fileName]);
+    if (isset($result['secure_url'])) {
+        echo json_encode(['location' => $result['secure_url']]);
     } else {
         http_response_code(500);
-        echo json_encode(["erro" => "Falha ao mover imagem"]);
+        echo json_encode(['erro' => 'Falha no upload para a nuvem.']);
     }
 }
 ?>
