@@ -39,21 +39,21 @@ include __DIR__ . '/../header.php';
 <div class="modal fade" id="modalNovoDocumento" tabindex="-1" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
-      <form id="formNovoDocumento" enctype="multipart/form-data">
+      <form id="formNovoDocumento" enctype="multipart/form-data" aria-label="Formulário de envio de documento">
         <div class="modal-header">
           <h5 class="modal-title text-primary fw-semibold">Enviar Novo Documento</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
         </div>
 
         <div class="modal-body">
           <div class="mb-3">
-            <label class="form-label">Nome do Documento</label>
-            <input type="text" name="nome" class="form-control" required>
+            <label for="nomeDocumento" class="form-label">Nome do Documento</label>
+            <input type="text" id="nomeDocumento" name="nome" class="form-control" required>
           </div>
 
           <div class="mb-3">
-            <label class="form-label">Categoria</label>
-            <select name="categoria" class="form-select" required>
+            <label for="categoriaDocumento" class="form-label">Categoria</label>
+            <select id="categoriaDocumento" name="categoria" class="form-select" required>
               <option value="">Selecione...</option>
               <option>Manuais</option>
               <option>Relatórios</option>
@@ -65,13 +65,13 @@ include __DIR__ . '/../header.php';
           </div>
 
           <div class="mb-3">
-            <label class="form-label">Responsável</label>
-            <input type="text" name="responsavel" class="form-control" required>
+            <label for="responsavelDocumento" class="form-label">Responsável</label>
+            <input type="text" id="responsavelDocumento" name="responsavel" class="form-control" required>
           </div>
 
           <div class="mb-3">
-            <label class="form-label">Arquivo</label>
-            <input type="file" name="arquivo" class="form-control" accept=".pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx" required>
+            <label for="arquivoDocumento" class="form-label">Arquivo</label>
+            <input type="file" id="arquivoDocumento" name="arquivo" class="form-control" accept=".pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx" required>
           </div>
         </div>
 
@@ -92,7 +92,7 @@ include __DIR__ . '/../header.php';
         <h5 class="modal-title fw-semibold text-primary">
           <i class="bi bi-file-earmark-text"></i> Visualizar Documento
         </h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
       </div>
 
       <div class="modal-body" style="height: 80vh;">

@@ -14,11 +14,11 @@ include __DIR__ . '/../header.php';
             <form method="POST" action="login.php">
               <div class="mb-3">
                 <label for="email" class="form-label">E-mail</label>
-                <input type="email" class="form-control" name="email" required>
+                <input type="email" id="email" class="form-control" name="email" required autocomplete="email">
               </div>
               <div class="mb-3">
                 <label for="senha" class="form-label">Senha</label>
-                <input type="password" class="form-control" name="senha" required>
+                <input type="password" id="senha" class="form-control" name="senha" required>
               </div>
               <button type="submit" class="btn btn-primary w-100">Entrar</button>
             </form>

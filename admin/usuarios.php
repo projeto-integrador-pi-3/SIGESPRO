@@ -46,7 +46,7 @@ include __DIR__ . '/../header.php';
 
 <!-- Campo de busca -->
 <div class="input-group mb-4">
-  <input type="text" id="campoBuscaUsuario" class="form-control" placeholder="Buscar usuário..." />
+  <input type="text" id="campoBuscaUsuario" class="form-control" placeholder="Buscar usuário..." aria-label="Buscar usuário" />
   <button class="btn btn-outline-primary" type="button">
     <i class="bi bi-search"></i> Buscar
   </button>
@@ -54,7 +54,7 @@ include __DIR__ . '/../header.php';
 
 <!-- Botão de novo usuário -->
 <div class="text-end mb-3">
-  <button id="btnNovoUsuario" class="btn btn-primary">
+  <button id="btnNovoUsuario" class="btn btn-primary" aria-label="Cadastrar novo usuário">
     <i class="bi bi-plus-circle"></i> Novo Usuário
   </button>
 </div>
@@ -66,29 +66,29 @@ include __DIR__ . '/../header.php';
 <div class="modal fade" id="modalNovoUsuario" tabindex="-1" aria-hidden="true">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
-      <form id="formNovoUsuario">
+      <form id="formNovoUsuario" aria-label="Formulário de cadastro de usuário">
         <div class="modal-header">
           <h5 class="modal-title fw-semibold text-primary">Cadastro de Usuário</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
         </div>
 
         <div class="modal-body">
           <div class="row g-3">
             <div class="col-md-6">
-              <label class="form-label">Nome</label>
-              <input type="text" name="nome" class="form-control" required />
+              <label for="nomeUsuario" class="form-label">Nome</label>
+              <input type="text" id="nomeUsuario" name="nome" class="form-control" required />
             </div>
             <div class="col-md-6">
-              <label class="form-label">E-mail</label>
-              <input type="email" name="email" class="form-control" required />
+              <label for="emailUsuario" class="form-label">E-mail</label>
+              <input type="email" id="emailUsuario" name="email" class="form-control" required />
             </div>
             <div class="col-md-6">
-              <label class="form-label">Senha</label>
-              <input type="password" name="senha" class="form-control" required />
+              <label for="senhaUsuario" class="form-label">Senha</label>
+              <input type="password" id="senhaUsuario" name="senha" class="form-control" required />
             </div>
             <div class="col-md-6">
-              <label class="form-label">Perfil</label>
-              <select name="perfil" class="form-select" required>
+              <label for="perfilUsuario" class="form-label">Perfil</label>
+              <select id="perfilUsuario" name="perfil" class="form-select" required>
                 <option value="">Selecione...</option>
                 <option value="admin">Administrador</option>
                 <option value="usuario">Usuário</option>
