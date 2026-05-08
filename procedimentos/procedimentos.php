@@ -15,7 +15,7 @@ include __DIR__ . '/../header.php';
 
 <!-- Campo de busca -->
 <div class="input-group mb-4">
-    <input type="text" class="form-control" placeholder="Pesquisar procedimento..." />
+    <input type="text" class="form-control" placeholder="Pesquisar procedimento..." aria-label="Pesquisar procedimento" />
     <button class="btn btn-outline-primary" type="button">Buscar</button>
 </div>
 
@@ -29,7 +29,7 @@ include __DIR__ . '/../header.php';
       <form id="formNovoProcedimento">
         <div class="modal-header">
           <h5 class="modal-title">Novo Procedimento</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
         </div>
         <div class="modal-body">
           <div class="mb-3">
@@ -71,7 +71,7 @@ include __DIR__ . '/../header.php';
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="detalhesTitulo"></h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
       </div>
       <div class="modal-body">
         <p id="detalhesDescricao"></p>

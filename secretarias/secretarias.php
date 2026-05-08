@@ -14,7 +14,7 @@ include __DIR__ . '/../header.php';
 
 <!-- Campo de busca -->
 <div class="input-group mb-4">
-  <input type="text" id="campoBuscaSecretaria" class="form-control" placeholder="Buscar Secretaria..." />
+  <input type="text" id="campoBuscaSecretaria" class="form-control" placeholder="Buscar Secretaria..." aria-label="Buscar Secretaria" />
   <button class="btn btn-outline-primary" type="button">
     <i class="bi bi-search"></i> Buscar
   </button>
@@ -22,7 +22,7 @@ include __DIR__ . '/../header.php';
 
 <!-- Botão de nova Secretaria -->
 <div class="text-end mb-3">
-  <button id="btnNovaSecretaria" class="btn btn-primary">
+  <button id="btnNovaSecretaria" class="btn btn-primary" aria-label="Cadastrar nova secretaria">
     <i class="bi bi-plus-circle"></i> Nova Secretaria
   </button>
 </div>
@@ -37,30 +37,30 @@ include __DIR__ . '/../header.php';
       <form id="formNovaSecretaria">
         <div class="modal-header">
           <h5 class="modal-title fw-semibold text-primary">Cadastro de Secretaria</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
         </div>
 
         <div class="modal-body">
           <div class="row g-3">
             <div class="col-md-6">
-              <label class="form-label">Nome da Secretaria</label>
-              <input type="text" name="nome" class="form-control" required />
+              <label for="nomeSecretaria" class="form-label">Nome da Secretaria</label>
+              <input type="text" id="nomeSecretaria" name="nome" class="form-control" required />
             </div>
             <div class="col-md-6">
-              <label class="form-label">Endereço</label>
-              <input type="text" name="endereco" class="form-control" required />
+              <label for="enderecoSecretaria" class="form-label">Endereço</label>
+              <input type="text" id="enderecoSecretaria" name="endereco" class="form-control" required />
             </div>
             <div class="col-md-6">
-              <label class="form-label">Telefone</label>
-              <input type="text" name="telefone" class="form-control" required />
+              <label for="telefoneSecretaria" class="form-label">Telefone</label>
+              <input type="text" id="telefoneSecretaria" name="telefone" class="form-control" required />
             </div>
             <div class="col-md-6">
-              <label class="form-label">E-mail</label>
-              <input type="email" name="email" class="form-control" required />
+              <label for="emailSecretaria" class="form-label">E-mail</label>
+              <input type="email" id="emailSecretaria" name="email" class="form-control" required />
             </div>
             <div class="col-md-6">
-              <label class="form-label">Responsável</label>
-              <input type="text" name="responsavel" class="form-control" required />
+              <label for="responsavelSecretaria" class="form-label">Responsável</label>
+              <input type="text" id="responsavelSecretaria" name="responsavel" class="form-control" required />
             </div>
           </div>
         </div>

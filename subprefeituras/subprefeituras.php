@@ -11,7 +11,7 @@ include __DIR__ . '/../header.php';
 </p>
 
 <div class="d-flex justify-content-between align-items-center mb-4">
-    <button id="btnNovaSub" class="btn btn-primary">
+    <button id="btnNovaSub" class="btn btn-primary" aria-label="Cadastrar nova subprefeitura">
         <i class="bi bi-plus-circle"></i> Nova Subprefeitura
     </button>
 </div>
@@ -23,10 +23,10 @@ include __DIR__ . '/../header.php';
 <div class="modal fade" id="modalSub" tabindex="-1" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
-      <form id="formSub">
+      <form id="formSub" aria-label="Formulário de cadastro de subprefeitura">
         <div class="modal-header bg-primary text-white">
           <h5 class="modal-title">Nova Subprefeitura</h5>
-          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Fechar"></button>
         </div>
         <div class="modal-body">
           <input type="hidden" id="subId" name="id">
