@@ -22,6 +22,8 @@ docker compose up --build
 
 Acesse em: `http://localhost:8000`
 
+> O `docker-compose.yml` usa o `docker/Dockerfile` (ambiente local com Apache). O `Dockerfile` na raiz é exclusivo para o deploy no Railway.
+
 ## Variáveis de ambiente
 
 Crie um arquivo `.env` na raiz com as seguintes variáveis:
@@ -93,6 +95,9 @@ Base URL: `https://sigespro-production.up.railway.app`
 ├── procedimentos/  # Módulo de procedimentos
 ├── documentos/     # Módulo de documentos
 ├── admin/          # Módulo de usuários e administração
-├── docker/         # Configurações do ambiente local (Dockerfile, init.sql)
-└── js/             # Scripts do frontend
+├── login/          # Autenticação (login, logout, verificação de sessão)
+├── docker/         # Ambiente local (Dockerfile, init.sql)
+├── js/             # Scripts do frontend
+├── Dockerfile      # Imagem de produção para deploy no Railway
+└── nixpacks.toml   # Configuração do build no Railway
 ```
