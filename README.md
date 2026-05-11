@@ -80,8 +80,8 @@ Base URL: `https://sigespro-production.up.railway.app`
 - [x] **Nuvem** — Railway (hospedagem) + Cloudinary (arquivos)
 - [x] **Controle de versão** — Git + GitHub com branches e pull requests
 - [x] **API** — API REST própria em `/api/` + consumo da API Cloudinary
-- [ ] **Acessibilidade** — Em desenvolvimento
-- [ ] **Integração contínua** — Em desenvolvimento
+- [x] **Acessibilidade** — Labels vinculados a inputs, `aria-label` nos botões e `autocomplete` nos formulários
+- [x] **Integração contínua** — GitHub Actions: verificação de sintaxe PHP e build Docker em todo PR para main
 - [ ] **Testes** — Em desenvolvimento
 
 ## Estrutura de pastas
@@ -96,8 +96,10 @@ Base URL: `https://sigespro-production.up.railway.app`
 ├── documentos/     # Módulo de documentos
 ├── admin/          # Módulo de usuários e administração
 ├── login/          # Autenticação (login, logout, verificação de sessão)
+├── database/       # Scripts SQL de criação das tabelas
 ├── docker/         # Ambiente local (Dockerfile, init.sql)
 ├── js/             # Scripts do frontend
+├── .github/        # Workflows de integração contínua
 ├── Dockerfile      # Imagem de produção para deploy no Railway
 └── nixpacks.toml   # Configuração do build no Railway
 ```
