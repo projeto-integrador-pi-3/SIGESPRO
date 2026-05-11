@@ -11,7 +11,7 @@ include __DIR__ . '/../header.php';
 
   <div class="d-flex justify-content-between align-items-center mb-5">
     <h2 class="fw-semibold">Sistemas utilizados pela COTI</h2>
-    <button id="btnNovoSistema" class="btn btn-primary">
+    <button id="btnNovoSistema" class="btn btn-primary" aria-label="Cadastrar novo sistema">
       <i class="bi bi-plus-circle me-2"></i> Novo sistema
     </button>
   </div>
@@ -51,38 +51,38 @@ include __DIR__ . '/../header.php';
           <h5 class="modal-title" id="modalNovoSistemaLabel">
             <i class="bi bi-plus-circle me-2"></i> Cadastrar novo sistema
           </h5>
-          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Fechar"></button>
         </div>
 
         <div class="modal-body">
           <div class="row g-3">
             <div class="col-md-6">
-              <label class="form-label">Nome do Sistema</label>
-              <input type="text" class="form-control" name="nome" required>
+              <label for="nome" class="form-label">Nome do Sistema</label>
+              <input type="text" id="nome" class="form-control" name="nome" required>
             </div>
             <div class="col-md-6">
-              <label class="form-label">Área</label>
-              <input type="text" class="form-control" name="area" required>
+              <label for="area" class="form-label">Área</label>
+              <input type="text" id="area" class="form-control" name="area" required>
             </div>
             <div class="col-md-6">
-              <label class="form-label">Responsável</label>
-              <input type="text" class="form-control" name="responsavel" required>
+             <label for="responsavel" class="form-label">Responsável</label>
+             <input type="text" id="responsavel" class="form-control" name="responsavel" required>
             </div>
             <div class="col-md-6">
-              <label class="form-label">E-mail</label>
-              <input type="email" class="form-control" name="email" required>
+              <label for="email" class="form-label">E-mail</label>
+              <input type="email" id="email" class="form-control" name="email" required>
             </div>
             <div class="col-md-6">
-              <label class="form-label">Telefone</label>
-              <input type="text" class="form-control" name="telefone">
+              <label for="telefone" class="form-label">Telefone</label>
+              <input type="text" id="telefone" class="form-control" name="telefone">
             </div>
             <div class="col-md-6">
-              <label class="form-label">Local</label>
-              <input type="text" class="form-control" name="local">
+             <label for="local" class="form-label">Local</label>
+             <input type="text" id="local" class="form-control" name="local">
             </div>
             <div class="col-md-6">
-              <label class="form-label">Status</label>
-              <select class="form-select" name="status" required>
+              <label for="status" class="form-label">Status</label>
+              <select id="status" class="form-select" name="status" required>
                 <option value="">Selecione...</option>
                 <option value="Ativo">Ativo</option>
                 <option value="Inativo">Inativo</option>
