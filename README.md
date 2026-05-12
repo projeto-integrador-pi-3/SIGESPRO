@@ -46,7 +46,7 @@ CLOUDINARY_API_KEY=
 CLOUDINARY_API_SECRET=
 ```
 
-> As variáveis do Cloudinary são necessárias apenas para upload de documentos. Para as demais funcionalidades, podem ficar em branco.
+> Sem as variáveis do Cloudinary, o upload e a exclusão de arquivos retornam erro, mas o restante do sistema funciona normalmente. Preencha apenas se precisar testar o módulo de documentos.
 
 **3. Suba os containers**
 
