@@ -103,8 +103,7 @@ if (!defined('BASE_URL')) {
                     <li class="nav-item"><a class="nav-link" href="<?= BASE_URL ?>/sistemas/sistemas.php">Sistemas</a></li>
                     <li class="nav-item"><a class="nav-link" href="<?= BASE_URL ?>/procedimentos/procedimentos.php">Procedimentos</a></li>
                     <li class="nav-item"><a class="nav-link" href="<?= BASE_URL ?>/documentos/documentos.php">Documentos</a></li>
-                    <li class="nav-item"><a class="nav-link" href="<?= BASE_URL ?>/subprefeituras/subprefeituras.php">Subprefeituras</a></li>
-                    <li class="nav-item"><a class="nav-link" href="<?= BASE_URL ?>/secretarias/secretarias.php">Secretarias</a></li>
+                    <li class="nav-item"><a class="nav-link" href="<?= BASE_URL ?>/contatos/contatos.php">Contatos</a></li>
                     <li class="nav-item"><a class="nav-link" href="<?= BASE_URL ?>/admin/usuarios.php">Usuários</a></li>
                     <?php if (isset($_SESSION['usuario_id'])): ?>
                         <!-- Usuário logado -->

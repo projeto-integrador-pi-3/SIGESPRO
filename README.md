@@ -114,44 +114,14 @@ Configurar manualmente apenas:
 | `CLOUDINARY_API_KEY` | Chave de API do Cloudinary |
 | `CLOUDINARY_API_SECRET` | Secret do Cloudinary |
 
-## API
-
-Base URL: `https://sigespro-production.up.railway.app`
-
-| Método | Endpoint | Descrição |
-|--------|----------|-----------|
-| GET | `/api/index.php` | Documentação da API |
-| GET | `/api/subprefeituras.php` | Lista todas as subprefeituras |
-| GET | `/api/subprefeituras.php?id={id}` | Retorna uma subprefeitura pelo ID |
-
-**Exemplo de resposta:**
-
-```json
-{
-  "success": true,
-  "total": 2,
-  "data": [
-    {
-      "id": "1",
-      "nome": "Sé",
-      "endereco": "Praça do Patriarca, 78 - Centro",
-      "telefone": "(11) 3392-0100",
-      "email": "ti.se@prefeitura.sp.gov.br",
-      "responsavel": "Carlos Souza",
-      "area": "TI"
-    }
-  ]
-}
-```
-
 ## Requisitos do Projeto Integrador III
 
 - [x] **Framework web** — Aplicação web em PHP 8.4
 - [x] **Banco de dados** — MySQL 8.0 via Railway
-- [x] **JavaScript** — Fetch API para CRUD em todos os módulos
-- [x] **Nuvem** — Railway (hospedagem) + Cloudinary (arquivos)
+- [x] **JavaScript** — Fetch API para CRUD assíncrono em todos os módulos
+- [x] **Nuvem** — Railway (hospedagem) + Cloudinary (armazenamento de arquivos)
 - [x] **Controle de versão** — Git + GitHub com branches e pull requests
-- [x] **API** — API REST própria em `/api/` + consumo da API Cloudinary
+- [x] **API** — Consumo da API Cloudinary para upload e gerenciamento de documentos
 - [x] **Acessibilidade** — Labels vinculados a inputs, `aria-label` nos botões e `autocomplete` nos formulários
 - [x] **Integração contínua** — GitHub Actions: verificação de sintaxe PHP e build Docker em todo PR para main
 - [ ] **Testes** — Em desenvolvimento
@@ -160,10 +130,8 @@ Base URL: `https://sigespro-production.up.railway.app`
 
 ```
 /
-├── api/            # Endpoints públicos da API REST
+├── contatos/       # Módulo de contatos (subprefeituras, secretarias e fornecedores)
 ├── sistemas/       # Módulo de sistemas
-├── subprefeituras/ # Módulo de subprefeituras
-├── secretarias/    # Módulo de secretarias
 ├── procedimentos/  # Módulo de procedimentos
 ├── documentos/     # Módulo de documentos
 ├── admin/          # Módulo de usuários e administração

@@ -41,18 +41,9 @@ include 'header.php';
     <div class="col-md-4">
         <div class="card shadow-sm">
             <div class="card-body">
-                <h5 class="card-title">Subprefeituras</h5>
-                <p class="card-text">Entre em contato com os responsáveis das unidades de TI e de CPDU.</p>
-                <a href="<?= BASE_URL ?>/subprefeituras/subprefeituras.php" class="btn btn-info w-100">Acessar</a>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-4">
-        <div class="card shadow-sm">
-            <div class="card-body">
-                <h5 class="card-title">Secretarias</h5>
-                <p class="card-text">Entre em contato com os responsáveis das unidades de TI.</p>
-                <a href="<?= BASE_URL ?>/secretarias/secretarias.php" class="btn btn-info w-100">Acessar</a>
+                <h5 class="card-title">Contatos</h5>
+                <p class="card-text">Gerencie subprefeituras, secretarias e fornecedores da COTI/SMSUB.</p>
+                <a href="<?= BASE_URL ?>/contatos/contatos.php" class="btn btn-info w-100">Acessar</a>
             </div>
         </div>
     </div>
