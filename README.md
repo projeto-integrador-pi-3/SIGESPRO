@@ -54,7 +54,9 @@ CLOUDINARY_API_SECRET=
 docker compose up --build
 ```
 
-O Docker irá criar os containers da aplicação PHP e do banco MySQL, e executar automaticamente o `docker/init.sql`, que cria todas as tabelas e um usuário admin padrão.
+O Docker irá subir a aplicação PHP e o banco MySQL. Na primeira execução, o `docker/init.sql` é aplicado automaticamente, criando todas as tabelas e o usuário admin padrão.
+
+> Se você já rodou o projeto antes e o banco não inicializou corretamente, apague o volume antigo com `docker compose down -v` antes de subir novamente.
 
 **4. Acesse o sistema**
 
@@ -81,7 +83,7 @@ docker compose down -v
 
 ---
 
-> O `docker-compose.yml` usa o `docker/Dockerfile` (ambiente local). O `Dockerfile` na raiz é exclusivo para o deploy no Railway.
+> O `docker-compose.yml` usa o `docker/Dockerfile` (servidor embutido do PHP). O `Dockerfile` na raiz é exclusivo para o deploy no Railway.
 
 ## Variáveis de ambiente
 
