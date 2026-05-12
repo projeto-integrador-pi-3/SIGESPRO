@@ -1,12 +1,14 @@
 <?php
 require_once __DIR__ . '/env_loader.php';
 
-function _env(string $key): ?string {
-    if (isset($_ENV[$key]) && $_ENV[$key] !== '') return $_ENV[$key];
-    $v = getenv($key);
-    if ($v !== false && $v !== '') return $v;
-    if (isset($_SERVER[$key]) && $_SERVER[$key] !== '') return $_SERVER[$key];
-    return null;
+if (!function_exists('_env')) {
+    function _env(string $key): ?string {
+        if (isset($_ENV[$key]) && $_ENV[$key] !== '') return $_ENV[$key];
+        $v = getenv($key);
+        if ($v !== false && $v !== '') return $v;
+        if (isset($_SERVER[$key]) && $_SERVER[$key] !== '') return $_SERVER[$key];
+        return null;
+    }
 }
 
 $host    = _env('DB_HOST')     ?? _env('MYSQLHOST')     ?? 'localhost';
