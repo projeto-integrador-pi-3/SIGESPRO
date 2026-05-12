@@ -1,16 +1,19 @@
 <?php
 require_once __DIR__ . '/env_loader.php';
 
-$host    = $_ENV['DB_HOST']     ?? getenv('DB_HOST')
-        ?: $_ENV['MYSQLHOST']   ?? getenv('MYSQLHOST')   ?: 'localhost';
-$porta   = (int)($_ENV['DB_PORT']     ?? getenv('DB_PORT')
-        ?: $_ENV['MYSQLPORT']   ?? getenv('MYSQLPORT')   ?: 3306);
-$usuario = $_ENV['DB_USER']     ?? getenv('DB_USER')
-        ?: $_ENV['MYSQLUSER']   ?? getenv('MYSQLUSER')   ?: 'root';
-$senha   = $_ENV['DB_PASSWORD'] ?? getenv('DB_PASSWORD')
-        ?: $_ENV['MYSQLPASSWORD'] ?? getenv('MYSQLPASSWORD') ?: '';
-$banco   = $_ENV['DB_NAME']     ?? getenv('DB_NAME')
-        ?: $_ENV['MYSQLDATABASE'] ?? getenv('MYSQLDATABASE') ?: 'sigespro';
+function _env(string $key): ?string {
+    if (isset($_ENV[$key]) && $_ENV[$key] !== '') return $_ENV[$key];
+    $v = getenv($key);
+    if ($v !== false && $v !== '') return $v;
+    if (isset($_SERVER[$key]) && $_SERVER[$key] !== '') return $_SERVER[$key];
+    return null;
+}
+
+$host    = _env('DB_HOST')     ?? _env('MYSQLHOST')     ?? 'localhost';
+$porta   = (int)(_env('DB_PORT') ?? _env('MYSQLPORT')   ?? 3306);
+$usuario = _env('DB_USER')     ?? _env('MYSQLUSER')     ?? 'root';
+$senha   = _env('DB_PASSWORD') ?? _env('MYSQLPASSWORD') ?? '';
+$banco   = _env('DB_NAME')     ?? _env('MYSQLDATABASE') ?? 'sigespro';
 
 $conn = new mysqli($host, $usuario, $senha, $banco, $porta);
 
