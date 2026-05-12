@@ -26,10 +26,15 @@ document.addEventListener('DOMContentLoaded', () => {
     fornecedor:    'Fornecedor',
   };
 
-  // Mostra/oculta campos de fornecedor conforme tipo selecionado
-  selectTipo.addEventListener('change', () => {
-    camposForn.classList.toggle('d-none', selectTipo.value !== 'fornecedor');
-  });
+  function atualizarCamposTipo() {
+    if (selectTipo.value === 'fornecedor') {
+      camposForn.classList.remove('d-none');
+    } else {
+      camposForn.classList.add('d-none');
+    }
+  }
+
+  selectTipo.addEventListener('change', atualizarCamposTipo);
 
   // Filtro por tipo
   document.querySelectorAll('[data-filtro]').forEach(btn => {
@@ -143,7 +148,7 @@ document.addEventListener('DOMContentLoaded', () => {
     formContato.email.value       = c.email       || '';
     formContato.responsavel.value = c.responsavel || '';
 
-    camposForn.classList.toggle('d-none', c.tipo !== 'fornecedor');
+    atualizarCamposTipo();
     if (c.tipo === 'fornecedor') {
       formContato.numero_sei.value      = c.numero_sei      || '';
       formContato.numero_contrato.value = c.numero_contrato || '';
