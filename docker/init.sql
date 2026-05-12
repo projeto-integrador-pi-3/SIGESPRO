@@ -76,11 +76,15 @@ CREATE TABLE IF NOT EXISTS documentos (
 
 -- Contatos (subprefeituras, secretarias e fornecedores unificados)
 CREATE TABLE IF NOT EXISTS contatos (
-  id          INT AUTO_INCREMENT PRIMARY KEY,
-  nome        VARCHAR(100) NOT NULL,
-  endereco    TEXT,
-  telefone    VARCHAR(50),
-  email       VARCHAR(100),
-  responsavel VARCHAR(100),
-  tipo        ENUM('subprefeitura','secretaria','fornecedor') NOT NULL
+  id               INT AUTO_INCREMENT PRIMARY KEY,
+  nome             VARCHAR(100) NOT NULL,
+  endereco         TEXT,
+  telefone         VARCHAR(50),
+  email            VARCHAR(100),
+  responsavel      VARCHAR(100),
+  tipo             ENUM('subprefeitura','secretaria','fornecedor') NOT NULL,
+  numero_sei       VARCHAR(50)  DEFAULT NULL,
+  numero_contrato  VARCHAR(50)  DEFAULT NULL,
+  vigencia_inicio  DATE         DEFAULT NULL,
+  vigencia_fim     DATE         DEFAULT NULL
 );
