@@ -7,6 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const selectTipo    = document.getElementById('contatoTipo');
   const camposForn    = document.getElementById('camposFornecedor');
   const titulo        = document.getElementById('modalContatoTitulo');
+  const campoBusca    = document.getElementById('buscaContatos');
 
   let editandoId  = null;
   let todosContatos = [];
@@ -40,11 +41,18 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
+  // Busca própria
+  campoBusca.addEventListener('input', () => {
+    dt.search(campoBusca.value).draw();
+  });
+
   function aplicarFiltro() {
-    const filtrados = filtroAtivo
-      ? todosContatos.filter(c => c.tipo === filtroAtivo)
+    const busca = (campoBusca.value || '').toLowerCase();
+    let lista = busca
+      ? dt.rows({ search: 'applied' }).data().toArray()
       : todosContatos;
-    renderizarCards(filtrados);
+    if (filtroAtivo) lista = lista.filter(c => c.tipo === filtroAtivo);
+    renderizarCards(lista);
   }
 
   btnNovo.addEventListener('click', () => {
@@ -180,20 +188,18 @@ document.addEventListener('DOMContentLoaded', () => {
         { data: 'email' },
         { data: 'responsavel' },
       ],
-      paging: true,
       searching: true,
+      paging: false,
       info: false,
-      lengthChange: false,
-      language: { search: 'Buscar:' },
+      dom: 't', // só a tabela, sem controles visíveis
     });
+
+    // Esconde o wrapper do DataTable (tabela é só para busca em memória)
+    $('#tabelaDataContatos').closest('.dataTables_wrapper').hide();
 
     aplicarFiltro();
 
-    dt.on('search.dt', () => {
-      const visiveis = dt.rows({ search: 'applied' }).data().toArray();
-      const filtrados = filtroAtivo ? visiveis.filter(c => c.tipo === filtroAtivo) : visiveis;
-      renderizarCards(filtrados);
-    });
+    dt.on('search.dt', () => aplicarFiltro());
   }
 
   carregarContatos();

@@ -14,12 +14,15 @@ include __DIR__ . '/../header.php';
   </button>
 </div>
 
-<!-- Filtro por tipo -->
-<div class="btn-group mb-4" role="group" aria-label="Filtrar por tipo">
-  <button type="button" class="btn btn-outline-secondary active" data-filtro="">Todos</button>
-  <button type="button" class="btn btn-outline-secondary" data-filtro="subprefeitura">Subprefeituras</button>
-  <button type="button" class="btn btn-outline-secondary" data-filtro="secretaria">Secretarias</button>
-  <button type="button" class="btn btn-outline-secondary" data-filtro="fornecedor">Fornecedores</button>
+<!-- Filtro por tipo + busca -->
+<div class="d-flex flex-wrap gap-3 align-items-center mb-4">
+  <div class="btn-group" role="group" aria-label="Filtrar por tipo">
+    <button type="button" class="btn btn-outline-secondary active" data-filtro="">Todos</button>
+    <button type="button" class="btn btn-outline-secondary" data-filtro="subprefeitura">Subprefeituras</button>
+    <button type="button" class="btn btn-outline-secondary" data-filtro="secretaria">Secretarias</button>
+    <button type="button" class="btn btn-outline-secondary" data-filtro="fornecedor">Fornecedores</button>
+  </div>
+  <input type="text" id="buscaContatos" class="form-control w-auto" placeholder="Buscar..." aria-label="Buscar contatos">
 </div>
 
 <!-- Container de cards -->
