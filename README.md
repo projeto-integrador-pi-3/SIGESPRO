@@ -87,14 +87,29 @@ docker compose down -v
 
 ## Variáveis de ambiente
 
+### Ambiente local (`.env`)
+
+| Variável | Valor para Docker local |
+|----------|------------------------|
+| `DB_HOST` | `db` |
+| `DB_PORT` | `3306` |
+| `DB_USER` | `sigespro` |
+| `DB_PASSWORD` | `sigespro` |
+| `DB_NAME` | `sigespro` |
+| `APP_URL` | `http://localhost:8000` |
+| `CLOUDINARY_CLOUD_NAME` | _(solicitar ao time)_ |
+| `CLOUDINARY_API_KEY` | _(solicitar ao time)_ |
+| `CLOUDINARY_API_SECRET` | _(solicitar ao time)_ |
+
+### Produção (Railway)
+
+As variáveis de banco são injetadas automaticamente pelo plugin MySQL do Railway (`MYSQLHOST`, `MYSQLUSER`, `MYSQLPASSWORD`, `MYSQLDATABASE`, `MYSQLPORT`). Não é necessário configurá-las manualmente.
+
+Configurar manualmente apenas:
+
 | Variável | Descrição |
 |----------|-----------|
-| `DB_HOST` | Host do banco de dados |
-| `DB_PORT` | Porta do MySQL |
-| `DB_USER` | Usuário do banco |
-| `DB_PASSWORD` | Senha do banco |
-| `DB_NAME` | Nome do banco |
-| `APP_URL` | URL base da aplicação |
+| `APP_URL` | URL pública da aplicação |
 | `CLOUDINARY_CLOUD_NAME` | Nome do cloud no Cloudinary |
 | `CLOUDINARY_API_KEY` | Chave de API do Cloudinary |
 | `CLOUDINARY_API_SECRET` | Secret do Cloudinary |
