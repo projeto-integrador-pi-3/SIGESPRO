@@ -103,16 +103,21 @@ docker compose down -v
 
 ### Produção (Railway)
 
-As variáveis de banco são injetadas automaticamente pelo plugin MySQL do Railway (`MYSQLHOST`, `MYSQLUSER`, `MYSQLPASSWORD`, `MYSQLDATABASE`, `MYSQLPORT`). Não é necessário configurá-las manualmente.
-
-Configurar manualmente apenas:
+Configurar manualmente no serviço **SIGESPRO** no painel do Railway (aba Variables):
 
 | Variável | Descrição |
 |----------|-----------|
+| `DB_HOST` | Host interno do MySQL (`mysql.railway.internal`) |
+| `DB_PORT` | Porta do MySQL (`3306`) |
+| `DB_USER` | Usuário do banco |
+| `DB_PASSWORD` | Senha do banco |
+| `DB_NAME` | Nome do banco (`railway`) |
 | `APP_URL` | URL pública da aplicação |
 | `CLOUDINARY_CLOUD_NAME` | Nome do cloud no Cloudinary |
 | `CLOUDINARY_API_KEY` | Chave de API do Cloudinary |
 | `CLOUDINARY_API_SECRET` | Secret do Cloudinary |
+
+> Os valores de `DB_HOST`, `DB_USER`, `DB_PASSWORD` e `DB_NAME` estão disponíveis na aba Variables do serviço MySQL no Railway.
 
 ## API
 
