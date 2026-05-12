@@ -51,7 +51,7 @@ include __DIR__ . '/../header.php';
               </select>
             </div>
             <div class="col-md-6">
-              <label for="contatoNome" class="form-label">Nome</label>
+              <label for="contatoNome" class="form-label" id="labelNome">Nome</label>
               <input type="text" class="form-control" id="contatoNome" name="nome" required>
             </div>
             <div class="col-12">
@@ -69,6 +69,16 @@ include __DIR__ . '/../header.php';
             <div class="col-md-6">
               <label for="contatoResponsavel" class="form-label">Responsável</label>
               <input type="text" class="form-control" id="contatoResponsavel" name="responsavel">
+            </div>
+
+            <!-- Campo exclusivo de subprefeitura -->
+            <div id="camposSubprefeitura" class="col-md-6 d-none">
+              <label for="contatoArea" class="form-label">Área</label>
+              <select class="form-select" id="contatoArea" name="area">
+                <option value="">Selecione</option>
+                <option value="TI">TI</option>
+                <option value="CPDU">CPDU</option>
+              </select>
             </div>
 
             <!-- Campos exclusivos de fornecedor -->

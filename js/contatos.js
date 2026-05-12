@@ -6,6 +6,8 @@ document.addEventListener('DOMContentLoaded', () => {
   const modal         = modalEl ? new bootstrap.Modal(modalEl) : null;
   const selectTipo    = document.getElementById('contatoTipo');
   const camposForn    = document.getElementById('camposFornecedor');
+  const camposSubpref = document.getElementById('camposSubprefeitura');
+  const labelNome     = document.getElementById('labelNome');
   const titulo        = document.getElementById('modalContatoTitulo');
   const campoBusca    = document.getElementById('buscaContatos');
 
@@ -26,8 +28,23 @@ document.addEventListener('DOMContentLoaded', () => {
     fornecedor:    'Fornecedor',
   };
 
+  const nomeLabel = {
+    subprefeitura: 'Nome da Subprefeitura',
+    secretaria:    'Nome da Secretaria',
+    fornecedor:    'Nome do Fornecedor',
+  };
+
   function atualizarCamposTipo() {
-    if (selectTipo.value === 'fornecedor') {
+    const tipo = selectTipo.value;
+    labelNome.textContent = nomeLabel[tipo] || 'Nome';
+
+    if (tipo === 'subprefeitura') {
+      camposSubpref.classList.remove('d-none');
+    } else {
+      camposSubpref.classList.add('d-none');
+    }
+
+    if (tipo === 'fornecedor') {
       camposForn.classList.remove('d-none');
     } else {
       camposForn.classList.add('d-none');
@@ -63,6 +80,8 @@ document.addEventListener('DOMContentLoaded', () => {
   btnNovo.addEventListener('click', () => {
     formContato.reset();
     camposForn.classList.add('d-none');
+    camposSubpref.classList.add('d-none');
+    labelNome.textContent = 'Nome';
     editandoId = null;
     titulo.textContent = 'Novo Contato';
     modal.show();
@@ -97,6 +116,9 @@ document.addEventListener('DOMContentLoaded', () => {
       col.className = 'col';
 
       let extraHtml = '';
+      if (c.tipo === 'subprefeitura' && c.area) {
+        extraHtml = `<p class="card-text mb-1"><i class="bi bi-diagram-3"></i> Área: ${c.area}</p>`;
+      }
       if (c.tipo === 'fornecedor') {
         const inicio = c.vigencia_inicio ? new Date(c.vigencia_inicio + 'T00:00:00').toLocaleDateString('pt-BR') : '—';
         const fim    = c.vigencia_fim    ? new Date(c.vigencia_fim    + 'T00:00:00').toLocaleDateString('pt-BR') : '—';
@@ -119,6 +141,7 @@ document.addEventListener('DOMContentLoaded', () => {
               <h5 class="card-title text-primary fw-bold mb-0">${c.nome}</h5>
               <span class="badge ${tipoBadge[c.tipo] || 'bg-secondary'}">${tipoLabel[c.tipo] || c.tipo}</span>
             </div>
+            ${c.area        ? `<p class="card-text mb-1"><i class="bi bi-diagram-3"></i> Área: ${c.area}</p>` : ''}
             ${c.endereco    ? `<p class="card-text mb-1"><i class="bi bi-geo-alt"></i> ${c.endereco}</p>` : ''}
             ${c.telefone    ? `<p class="card-text mb-1"><i class="bi bi-telephone"></i> ${c.telefone}</p>` : ''}
             ${c.email       ? `<p class="card-text mb-1"><i class="bi bi-envelope"></i> ${c.email}</p>` : ''}
@@ -149,6 +172,9 @@ document.addEventListener('DOMContentLoaded', () => {
     formContato.responsavel.value = c.responsavel || '';
 
     atualizarCamposTipo();
+    if (c.tipo === 'subprefeitura') {
+      formContato.area.value = c.area || '';
+    }
     if (c.tipo === 'fornecedor') {
       formContato.numero_sei.value      = c.numero_sei      || '';
       formContato.numero_contrato.value = c.numero_contrato || '';
@@ -196,10 +222,9 @@ document.addEventListener('DOMContentLoaded', () => {
       searching: true,
       paging: false,
       info: false,
-      dom: 't', // só a tabela, sem controles visíveis
+      dom: 't',
     });
 
-    // Esconde o wrapper do DataTable (tabela é só para busca em memória)
     $('#tabelaDataContatos').closest('.dataTables_wrapper').hide();
 
     aplicarFiltro();
