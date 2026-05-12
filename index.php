@@ -1,5 +1,6 @@
 <?php
 
+require_once 'login/verifica_login.php';
 include 'config.php';
 include 'header.php';
 ?>
