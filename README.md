@@ -14,26 +14,30 @@ Portal interno de gestão de sistemas e procedimentos de TI da SMSUB/SP.
 
 ## Rodar localmente
 
-**Pré-requisitos:** Docker e Docker Compose instalados.
+### Pré-requisitos
+
+- [Docker Desktop](https://www.docker.com/products/docker-desktop/) (inclui Docker Compose)
+- Git
+
+### Passo a passo
+
+**1. Clone o repositório**
 
 ```bash
-docker compose up --build
+git clone https://github.com/projeto-integrador-pi-3/SIGESPRO.git
+cd SIGESPRO
 ```
 
-Acesse em: `http://localhost:8000`
+**2. Crie o arquivo `.env`**
 
-> O `docker-compose.yml` usa o `docker/Dockerfile` (ambiente local com Apache). O `Dockerfile` na raiz é exclusivo para o deploy no Railway.
-
-## Variáveis de ambiente
-
-Crie um arquivo `.env` na raiz com as seguintes variáveis:
+Crie um arquivo `.env` na raiz do projeto com o conteúdo abaixo. Para rodar localmente, as variáveis de banco já estão preenchidas com os valores do Docker:
 
 ```env
-DB_HOST=
-DB_PORT=
-DB_USER=
-DB_PASSWORD=
-DB_NAME=
+DB_HOST=db
+DB_PORT=3306
+DB_USER=sigespro
+DB_PASSWORD=sigespro
+DB_NAME=sigespro
 
 APP_URL=http://localhost:8000
 
@@ -41,6 +45,57 @@ CLOUDINARY_CLOUD_NAME=
 CLOUDINARY_API_KEY=
 CLOUDINARY_API_SECRET=
 ```
+
+> As variáveis do Cloudinary são necessárias apenas para upload de documentos. Para as demais funcionalidades, podem ficar em branco.
+
+**3. Suba os containers**
+
+```bash
+docker compose up --build
+```
+
+O Docker irá criar os containers da aplicação PHP e do banco MySQL, e executar automaticamente o `docker/init.sql`, que cria todas as tabelas e um usuário admin padrão.
+
+**4. Acesse o sistema**
+
+Abra `http://localhost:8000` no navegador e faça login com:
+
+| Campo | Valor |
+|-------|-------|
+| E-mail | `admin@sigespro.dev` |
+| Senha | `admin123` |
+
+> Este usuário existe apenas no ambiente local. Nunca suba credenciais de teste para produção.
+
+**5. Parar os containers**
+
+```bash
+docker compose down
+```
+
+Para apagar também os dados do banco:
+
+```bash
+docker compose down -v
+```
+
+---
+
+> O `docker-compose.yml` usa o `docker/Dockerfile` (ambiente local). O `Dockerfile` na raiz é exclusivo para o deploy no Railway.
+
+## Variáveis de ambiente
+
+| Variável | Descrição |
+|----------|-----------|
+| `DB_HOST` | Host do banco de dados |
+| `DB_PORT` | Porta do MySQL |
+| `DB_USER` | Usuário do banco |
+| `DB_PASSWORD` | Senha do banco |
+| `DB_NAME` | Nome do banco |
+| `APP_URL` | URL base da aplicação |
+| `CLOUDINARY_CLOUD_NAME` | Nome do cloud no Cloudinary |
+| `CLOUDINARY_API_KEY` | Chave de API do Cloudinary |
+| `CLOUDINARY_API_SECRET` | Secret do Cloudinary |
 
 ## API
 
