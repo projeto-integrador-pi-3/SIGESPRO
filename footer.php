@@ -2,7 +2,7 @@
 
   <!-- Rodapé -->
   <footer class="footer mt-auto py-3 bg-dark text-light">
-      <p class="mb-0 text-center">© 2025 Coordenação de Tecnologia da Informação - Secretaria Municipal das Subprefeituras</p>
+      <p class="mb-0 text-center">© 2026 Coordenação de Tecnologia da Informação - Secretaria Municipal das Subprefeituras</p>
   </footer>
 
 <!-- Bootstrap Bundle JS (contém modal e popper) -->
