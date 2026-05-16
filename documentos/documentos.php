@@ -1,18 +1,27 @@
 <?php
-
-$pageScripts = ['documentos.js']; // Apenas scripts deste módulo
-
+$pageScripts = ['documentos.js'];
 require_once __DIR__ . '/../login/verifica_login.php';
 include __DIR__ . '/../header.php';
-
-
 ?>
+<script>
+  const IS_ADMIN = <?= json_encode($_SESSION['usuario_perfil'] === 'admin') ?>;
+</script>
 
 <div class="d-flex justify-content-between align-items-center mb-5">
   <h2 class="fw-semibold text-primary">Documentos da Coordenação de TI</h2>
-  <button id="btnNovoDocumento" class="btn btn-primary">
-    <i class="bi bi-upload"></i> Enviar Documento
-  </button>
+  <div class="d-flex gap-2">
+    <?php if ($_SESSION['usuario_perfil'] === 'admin'): ?>
+    <a href="<?= BASE_URL ?>/documentos/templates.php" class="btn btn-outline-primary">
+      <i class="bi bi-file-earmark-code"></i> Templates
+    </a>
+    <?php endif; ?>
+    <a href="<?= BASE_URL ?>/documentos/gerar_documento.php" class="btn btn-outline-success">
+      <i class="bi bi-file-earmark-plus"></i> Gerar Documento
+    </a>
+    <button id="btnNovoDocumento" class="btn btn-primary">
+      <i class="bi bi-upload"></i> Enviar Documento
+    </button>
+  </div>
 </div>
 
 
@@ -84,30 +93,6 @@ include __DIR__ . '/../header.php';
   </div>
 </div>
 
-<!-- Modal de Visualização -->
-<div class="modal fade" id="modalVisualizarDocumento" tabindex="-1" aria-hidden="true">
-  <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title fw-semibold text-primary">
-          <i class="bi bi-file-earmark-text"></i> Visualizar Documento
-        </h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
-      </div>
-
-      <div class="modal-body" style="height: 80vh;">
-        <iframe id="iframeDocumento" src="" style="width: 100%; height: 100%; border: none;" allowfullscreen></iframe>
-      </div>
-
-      <div class="modal-footer">
-        <button type="button" class="btn btn-outline-success" id="btnBaixarDocumento">
-          <i class="bi bi-download"></i> Baixar
-        </button>
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
-      </div>
-    </div>
-  </div>
-</div>
 
 
 <?php include __DIR__ . '/../footer.php'; ?>

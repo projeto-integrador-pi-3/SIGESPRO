@@ -75,12 +75,6 @@ document.addEventListener('DOMContentLoaded', () => {
             <td>${doc.responsavel}</td>
             <td>${dataFormatada}</td>
             <td class="text-center">
-              <button class="btn btn-sm btn-outline-primary me-1 btn-visualizar"
-                 data-nome="${doc.nome}"
-                 data-arquivo="${doc.arquivo}">
-                 <i class="bi bi-eye"></i> Visualizar
-              </button>
-
               <a href="${doc.arquivo}" target="_blank" class="btn btn-sm btn-outline-success me-1">
                 <i class="bi bi-download"></i> Baixar
               </a>
@@ -103,33 +97,6 @@ document.addEventListener('DOMContentLoaded', () => {
   // Delegação de eventos para DataTable
   document.addEventListener('click', e => {
 
-    // Visualizar
-    if (e.target.closest('.btn-visualizar')) {
-      const btn = e.target.closest('.btn-visualizar');
-      const nome = btn.dataset.nome;
-      const arquivo = btn.dataset.arquivo;
-      const extensao = arquivo.split('?')[0].split('.').pop().toLowerCase();
-
-      let src = '';
-      if (extensao === 'pdf') {
-        src = arquivo;
-      } else if (['doc', 'docx', 'xls', 'xlsx', 'ppt', 'pptx'].includes(extensao)) {
-        src = `https://docs.google.com/gview?url=${encodeURIComponent(arquivo)}&embedded=true`;
-      } else {
-        src = arquivo;
-      }
-
-      const modalVisualizar = new bootstrap.Modal(document.getElementById('modalVisualizarDocumento'));
-      const iframeDocumento = document.getElementById('iframeDocumento');
-      const btnBaixar = document.getElementById('btnBaixarDocumento');
-
-      iframeDocumento.src = src;
-      document.querySelector('#modalVisualizarDocumento .modal-title').innerHTML =
-        `<i class="bi bi-file-earmark-text"></i> ${nome}`;
-      btnBaixar.onclick = () => window.open(arquivo, '_blank');
-      modalVisualizar.show();
-    }
-
     // Excluir
     if (e.target.closest('.btn-excluir')) {
       const btn = e.target.closest('.btn-excluir');
@@ -148,11 +115,6 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     }
 
-  });
-
-  // Limpar iframe ao fechar modal
-  document.getElementById('modalVisualizarDocumento').addEventListener('hidden.bs.modal', () => {
-    document.getElementById('iframeDocumento').src = '';
   });
 
 });

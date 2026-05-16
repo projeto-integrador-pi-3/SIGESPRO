@@ -26,6 +26,40 @@ function cloudinary_upload($fileTmp, $originalName) {
     return json_decode($response, true);
 }
 
+function cloudinary_upload_base64($base64Data, $filename) {
+    $cloudName = $_ENV['CLOUDINARY_CLOUD_NAME'] ?? getenv('CLOUDINARY_CLOUD_NAME');
+    $apiKey    = $_ENV['CLOUDINARY_API_KEY']    ?? getenv('CLOUDINARY_API_KEY');
+    $apiSecret = $_ENV['CLOUDINARY_API_SECRET'] ?? getenv('CLOUDINARY_API_SECRET');
+
+    $timestamp = time();
+    $folder    = 'sigespro';
+
+    $signature = sha1("folder=$folder&timestamp=$timestamp" . $apiSecret);
+
+    $tmpBase = tempnam(sys_get_temp_dir(), 'doc_');
+    $tmpFile = $tmpBase . '.pdf';
+    file_put_contents($tmpFile, base64_decode($base64Data));
+
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, "https://api.cloudinary.com/v1_1/$cloudName/auto/upload");
+    curl_setopt($ch, CURLOPT_POST, true);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, [
+        'file'      => new CURLFile($tmpFile, 'application/pdf', $filename),
+        'api_key'   => $apiKey,
+        'timestamp' => $timestamp,
+        'signature' => $signature,
+        'folder'    => $folder,
+    ]);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    $response = curl_exec($ch);
+    curl_close($ch);
+
+    unlink($tmpFile);
+    unlink($tmpBase);
+
+    return json_decode($response, true);
+}
+
 function cloudinary_delete_by_url($url) {
     if (!preg_match('|cloudinary\.com/[^/]+/(\w+)/upload/(?:v\d+/)?(.+)$|', $url, $m)) {
         return false;
