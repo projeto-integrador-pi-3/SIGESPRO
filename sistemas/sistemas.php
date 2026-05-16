@@ -1,5 +1,4 @@
-
-<?php 
+<?php
 $pageScripts = ['sistemas.js']; // Apenas scripts deste módulo
 require_once __DIR__ . '/../login/verifica_login.php';
 include __DIR__ . '/../header.php';
