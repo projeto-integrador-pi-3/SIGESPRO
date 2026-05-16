@@ -1,4 +1,5 @@
 <?php
+require_once '../login/verifica_login.php';
 require '../conexao.php';
 
 $result = $conn->query("SELECT id, nome, categoria, conteudo, created_at, updated_at FROM templates_documentos ORDER BY nome ASC");

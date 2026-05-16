@@ -36,7 +36,8 @@ function cloudinary_upload_base64($base64Data, $filename) {
 
     $signature = sha1("folder=$folder&timestamp=$timestamp" . $apiSecret);
 
-    $tmpFile = tempnam(sys_get_temp_dir(), 'doc_') . '.pdf';
+    $tmpBase = tempnam(sys_get_temp_dir(), 'doc_');
+    $tmpFile = $tmpBase . '.pdf';
     file_put_contents($tmpFile, base64_decode($base64Data));
 
     $ch = curl_init();
@@ -54,6 +55,7 @@ function cloudinary_upload_base64($base64Data, $filename) {
     curl_close($ch);
 
     unlink($tmpFile);
+    unlink($tmpBase);
 
     return json_decode($response, true);
 }

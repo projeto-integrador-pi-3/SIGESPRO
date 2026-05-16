@@ -10,10 +10,6 @@ if ($_SESSION['usuario_perfil'] !== 'admin') {
 
 include __DIR__ . '/../header.php';
 ?>
-<script>
-  const IS_ADMIN = <?= json_encode($_SESSION['usuario_perfil'] === 'admin') ?>;
-</script>
-
 <div class="d-flex justify-content-between align-items-center mb-4">
   <div>
     <h2 class="fw-semibold text-primary mb-1">Templates de Documentos</h2>
