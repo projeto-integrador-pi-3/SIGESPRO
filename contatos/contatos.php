@@ -3,6 +3,9 @@ $pageScripts = ['contatos.js'];
 require_once __DIR__ . '/../login/verifica_login.php';
 include __DIR__ . '/../header.php';
 ?>
+<script>
+  const IS_ADMIN = <?= json_encode($_SESSION['usuario_perfil'] === 'admin') ?>;
+</script>
 
 <div class="d-flex justify-content-between align-items-center mb-4">
   <div>
@@ -67,7 +70,7 @@ include __DIR__ . '/../header.php';
               <input type="email" class="form-control" id="contatoEmail" name="email">
             </div>
             <div class="col-md-6">
-              <label for="contatoResponsavel" class="form-label">Responsável</label>
+              <label for="contatoResponsavel" class="form-label" id="labelResponsavel">Responsável</label>
               <input type="text" class="form-control" id="contatoResponsavel" name="responsavel">
             </div>
 
@@ -81,6 +84,12 @@ include __DIR__ . '/../header.php';
               </select>
             </div>
 
+            <!-- Campo exclusivo de fornecedor: responsável financeiro -->
+            <div id="campoResponsavelFinanceiro" class="col-md-6 d-none">
+              <label for="contatoResponsavelFinanceiro" class="form-label">Responsável Financeiro</label>
+              <input type="text" class="form-control" id="contatoResponsavelFinanceiro" name="responsavel_financeiro">
+            </div>
+
             <!-- Campos exclusivos de fornecedor -->
             <div id="camposFornecedor" class="col-12 d-none">
               <hr>
@@ -91,8 +100,8 @@ include __DIR__ . '/../header.php';
                   <input type="text" class="form-control" id="contatoSei" name="numero_sei">
                 </div>
                 <div class="col-md-6">
-                  <label for="contatoContrato" class="form-label">Número do Contrato</label>
-                  <input type="text" class="form-control" id="contatoContrato" name="numero_contrato">
+                  <label for="contatoValorContrato" class="form-label">Valor do Contrato</label>
+                  <input type="text" class="form-control" id="contatoValorContrato" name="valor_contrato">
                 </div>
                 <div class="col-md-6">
                   <label for="contatoVigenciaInicio" class="form-label">Início da Vigência</label>

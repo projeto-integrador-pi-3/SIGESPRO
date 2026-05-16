@@ -1,9 +1,17 @@
 <?php
+if (session_status() === PHP_SESSION_NONE) session_start();
+
 require '../conexao.php';
 
-$id = $_POST['id'] ?? '';
-
 header('Content-Type: application/json; charset=utf-8');
+
+if (!isset($_SESSION['usuario_perfil']) || $_SESSION['usuario_perfil'] !== 'admin') {
+    http_response_code(403);
+    echo json_encode(['success' => false, 'erro' => 'Acesso negado. Somente administradores podem excluir contatos.']);
+    exit;
+}
+
+$id = $_POST['id'] ?? '';
 
 if (!$id) {
     echo json_encode(['success' => false, 'erro' => 'ID inválido']);

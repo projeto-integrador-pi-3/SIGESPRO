@@ -10,6 +10,8 @@ document.addEventListener('DOMContentLoaded', () => {
   const labelNome     = document.getElementById('labelNome');
   const titulo        = document.getElementById('modalContatoTitulo');
   const campoBusca    = document.getElementById('buscaContatos');
+  const labelResponsavel       = document.getElementById('labelResponsavel');
+  const campoRespFinanceiro    = document.getElementById('campoResponsavelFinanceiro');
 
   let editandoId  = null;
   let todosContatos = [];
@@ -37,6 +39,7 @@ document.addEventListener('DOMContentLoaded', () => {
   function atualizarCamposTipo() {
     const tipo = selectTipo.value;
     labelNome.textContent = nomeLabel[tipo] || 'Nome';
+    labelResponsavel.textContent = tipo === 'fornecedor' ? 'Responsável Comercial' : 'Responsável';
 
     if (tipo === 'subprefeitura') {
       camposSubpref.classList.remove('d-none');
@@ -46,8 +49,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (tipo === 'fornecedor') {
       camposForn.classList.remove('d-none');
+      campoRespFinanceiro.classList.remove('d-none');
     } else {
       camposForn.classList.add('d-none');
+      campoRespFinanceiro.classList.add('d-none');
     }
   }
 
@@ -81,7 +86,9 @@ document.addEventListener('DOMContentLoaded', () => {
     formContato.reset();
     camposForn.classList.add('d-none');
     camposSubpref.classList.add('d-none');
+    campoRespFinanceiro.classList.add('d-none');
     labelNome.textContent = 'Nome';
+    labelResponsavel.textContent = 'Responsável';
     editandoId = null;
     titulo.textContent = 'Novo Contato';
     modal.show();
@@ -128,8 +135,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
         extraHtml = `
           <hr class="my-2">
-          ${c.numero_sei      ? `<p class="card-text mb-1"><i class="bi bi-file-earmark-text"></i> SEI: ${c.numero_sei}</p>` : ''}
-          ${c.numero_contrato ? `<p class="card-text mb-1"><i class="bi bi-file-earmark-ruled"></i> Contrato: ${c.numero_contrato}</p>` : ''}
+          ${c.responsavel_financeiro ? `<p class="card-text mb-1"><i class="bi bi-person"></i> Resp. Financeiro: ${c.responsavel_financeiro}</p>` : ''}
+          ${c.numero_sei    ? `<p class="card-text mb-1"><i class="bi bi-file-earmark-text"></i> SEI: ${c.numero_sei}</p>` : ''}
+          ${c.valor_contrato ? `<p class="card-text mb-1"><i class="bi bi-cash"></i> Valor: ${c.valor_contrato}</p>` : ''}
           <p class="card-text mb-1 ${vencClass}"><i class="bi bi-calendar-range"></i> Vigência: ${inicio} → ${fim}</p>
         `;
       }
@@ -149,14 +157,15 @@ document.addEventListener('DOMContentLoaded', () => {
             ${extraHtml}
             <div class="d-flex justify-content-end mt-3">
               <button class="btn btn-sm btn-primary me-2 btnEditar" aria-label="Editar ${c.nome}">Editar</button>
-              <button class="btn btn-sm btn-danger btnExcluir" aria-label="Excluir ${c.nome}">Excluir</button>
+              ${IS_ADMIN ? `<button class="btn btn-sm btn-danger btnExcluir" aria-label="Excluir ${c.nome}">Excluir</button>` : ''}
             </div>
           </div>
         </div>
       `;
 
       col.querySelector('.btnEditar').addEventListener('click', () => editarContato(c));
-      col.querySelector('.btnExcluir').addEventListener('click', () => excluirContato(c.id));
+      const btnExcluir = col.querySelector('.btnExcluir');
+      if (btnExcluir) btnExcluir.addEventListener('click', () => excluirContato(c.id));
       container.appendChild(col);
     });
   }
@@ -176,10 +185,11 @@ document.addEventListener('DOMContentLoaded', () => {
       formContato.area.value = c.area || '';
     }
     if (c.tipo === 'fornecedor') {
-      formContato.numero_sei.value      = c.numero_sei      || '';
-      formContato.numero_contrato.value = c.numero_contrato || '';
-      formContato.vigencia_inicio.value = c.vigencia_inicio || '';
-      formContato.vigencia_fim.value    = c.vigencia_fim    || '';
+      formContato.numero_sei.value             = c.numero_sei             || '';
+      formContato.responsavel_financeiro.value = c.responsavel_financeiro || '';
+      formContato.valor_contrato.value         = c.valor_contrato         || '';
+      formContato.vigencia_inicio.value        = c.vigencia_inicio        || '';
+      formContato.vigencia_fim.value           = c.vigencia_fim           || '';
     }
     modal.show();
   }
