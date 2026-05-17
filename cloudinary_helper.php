@@ -10,7 +10,7 @@ function cloudinary_upload($fileTmp, $originalName) {
     $signature = sha1("folder=$folder&timestamp=$timestamp" . $apiSecret);
 
     $ch = curl_init();
-    curl_setopt($ch, CURLOPT_URL, "https://api.cloudinary.com/v1_1/$cloudName/auto/upload");
+    curl_setopt($ch, CURLOPT_URL, "https://api.cloudinary.com/v1_1/$cloudName/raw/upload");
     curl_setopt($ch, CURLOPT_POST, true);
     curl_setopt($ch, CURLOPT_POSTFIELDS, [
         'file'      => new CURLFile($fileTmp, '', $originalName),
@@ -41,7 +41,7 @@ function cloudinary_upload_base64($base64Data, $filename) {
     file_put_contents($tmpFile, base64_decode($base64Data));
 
     $ch = curl_init();
-    curl_setopt($ch, CURLOPT_URL, "https://api.cloudinary.com/v1_1/$cloudName/auto/upload");
+    curl_setopt($ch, CURLOPT_URL, "https://api.cloudinary.com/v1_1/$cloudName/raw/upload");
     curl_setopt($ch, CURLOPT_POST, true);
     curl_setopt($ch, CURLOPT_POSTFIELDS, [
         'file'      => new CURLFile($tmpFile, 'application/pdf', $filename),

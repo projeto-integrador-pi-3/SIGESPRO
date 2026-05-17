@@ -69,13 +69,15 @@ document.addEventListener('DOMContentLoaded', () => {
           const linha = document.createElement('tr');
           linha.dataset.documento = JSON.stringify(doc);
 
+          const arquivoUrl = doc.arquivo.replace('/image/upload/', '/raw/upload/');
+
           linha.innerHTML = `
             <td>${doc.nome}</td>
             <td>${doc.categoria}</td>
             <td>${doc.responsavel}</td>
             <td>${dataFormatada}</td>
             <td class="text-center">
-              <a href="${doc.arquivo}" target="_blank" class="btn btn-sm btn-outline-success me-1">
+              <a href="${arquivoUrl}" target="_blank" class="btn btn-sm btn-outline-success me-1">
                 <i class="bi bi-download"></i> Baixar
               </a>
 
