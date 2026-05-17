@@ -37,12 +37,12 @@ CREATE TABLE IF NOT EXISTS procedimentos (
 
 -- Documentos
 CREATE TABLE IF NOT EXISTS documentos (
-  id              INT AUTO_INCREMENT PRIMARY KEY,
-  nome            VARCHAR(100) NOT NULL,
-  descricao       TEXT,
-  caminho_arquivo TEXT,
-  procedimento_id INT,
-  CONSTRAINT fk_documentos_procedimentos FOREIGN KEY (procedimento_id) REFERENCES procedimentos (id)
+  id          INT AUTO_INCREMENT PRIMARY KEY,
+  nome        VARCHAR(100) NOT NULL,
+  categoria   VARCHAR(100) DEFAULT NULL,
+  responsavel VARCHAR(100) DEFAULT NULL,
+  data_upload DATETIME DEFAULT CURRENT_TIMESTAMP,
+  arquivo     TEXT
 );
 
 -- Templates de documentos
