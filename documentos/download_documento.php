@@ -18,8 +18,13 @@ if (!$row || !$row['arquivo']) {
     exit;
 }
 
+$apiSecret = $_ENV['CLOUDINARY_API_SECRET'] ?? getenv('CLOUDINARY_API_SECRET');
+
 // Normaliza raw/upload (legado) para image/upload
-$url = str_replace('/raw/upload/', '/image/upload/', $row['arquivo']);
+$rawUrl = str_replace('/raw/upload/', '/image/upload/', $row['arquivo']);
+
+// Gera URL de entrega assinada (necessário para recursos com acesso restrito)
+$url = cloudinary_signed_delivery_url($rawUrl, $apiSecret);
 
 $ch = curl_init($url);
 curl_setopt_array($ch, [
@@ -27,7 +32,7 @@ curl_setopt_array($ch, [
     CURLOPT_FOLLOWLOCATION => true,
     CURLOPT_SSL_VERIFYPEER => false,
     CURLOPT_TIMEOUT        => 30,
-    CURLOPT_USERAGENT      => 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36',
+    CURLOPT_USERAGENT      => 'Mozilla/5.0',
 ]);
 $data     = curl_exec($ch);
 $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
@@ -45,3 +50,25 @@ header('Content-Type: application/pdf');
 header('Content-Disposition: attachment; filename="' . $filename . '"');
 header('Content-Length: ' . strlen($data));
 echo $data;
+
+function cloudinary_signed_delivery_url(string $url, string $apiSecret): string {
+    if (!preg_match('|cloudinary\.com/([^/]+)/(\w+)/upload/(v\d+/)?(.+)$|', $url, $m)) {
+        return $url;
+    }
+
+    $cloudName    = $m[1];
+    $resourceType = $m[2];
+    $version      = rtrim($m[3] ?? '', '/');
+    $fileWithExt  = $m[4];
+
+    // Para image, o public_id não inclui extensão na assinatura
+    $publicId = ($resourceType === 'image')
+        ? preg_replace('/\.[^.]+$/', '', $fileWithExt)
+        : $fileWithExt;
+
+    $toSign = ($version ? $version . '/' : '') . $publicId;
+    $sig    = substr(strtr(base64_encode(sha1($toSign . $apiSecret, true)), '+/', '-_'), 0, 8);
+
+    $versionPath = $version ? $version . '/' : '';
+    return "https://res.cloudinary.com/$cloudName/$resourceType/upload/s--$sig--/$versionPath$fileWithExt";
+}
