@@ -137,4 +137,19 @@ include __DIR__ . '/../header.php';
   </thead>
 </table>
 
+<script>
+function initGoogleMaps() {
+    var input = document.getElementById('contatoEndereco');
+    if (!input || !window.google || !google.maps || !google.maps.places) return;
+    var searchBox = new google.maps.places.SearchBox(input);
+    searchBox.addListener('places_changed', function () {
+        var places = searchBox.getPlaces();
+        if (places && places.length > 0 && places[0].formatted_address) {
+            input.value = places[0].formatted_address;
+        }
+    });
+}
+</script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBa0tsYGve4tIwERQ0438tyuQvkEHJAJT4&libraries=places&callback=initGoogleMaps" async></script>
+
 <?php include __DIR__ . '/../footer.php'; ?>

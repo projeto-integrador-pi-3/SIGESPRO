@@ -28,12 +28,11 @@ CREATE TABLE IF NOT EXISTS sistemas (
 
 -- Procedimentos
 CREATE TABLE IF NOT EXISTS procedimentos (
-  id         INT AUTO_INCREMENT PRIMARY KEY,
-  nome       VARCHAR(100) NOT NULL,
-  descricao  TEXT,
-  tipo       VARCHAR(50),
-  sistema_id INT,
-  CONSTRAINT fk_procedimentos_sistemas FOREIGN KEY (sistema_id) REFERENCES sistemas (id) ON DELETE RESTRICT
+  id        INT AUTO_INCREMENT PRIMARY KEY,
+  titulo    VARCHAR(100) NOT NULL,
+  resumo    TEXT,
+  descricao TEXT,
+  tipo      VARCHAR(50)
 );
 
 -- Documentos
@@ -46,6 +45,16 @@ CREATE TABLE IF NOT EXISTS documentos (
   CONSTRAINT fk_documentos_procedimentos FOREIGN KEY (procedimento_id) REFERENCES procedimentos (id)
 );
 
+-- Templates de documentos
+CREATE TABLE IF NOT EXISTS templates_documentos (
+  id         INT AUTO_INCREMENT PRIMARY KEY,
+  nome       VARCHAR(100) NOT NULL,
+  categoria  VARCHAR(100) NOT NULL,
+  conteudo   LONGTEXT NOT NULL,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
 -- Contatos (subprefeituras, secretarias e fornecedores unificados)
 CREATE TABLE IF NOT EXISTS contatos (
   id               INT AUTO_INCREMENT PRIMARY KEY,
@@ -55,11 +64,12 @@ CREATE TABLE IF NOT EXISTS contatos (
   email            VARCHAR(100),
   responsavel      VARCHAR(100),
   tipo             ENUM('subprefeitura','secretaria','fornecedor') NOT NULL,
-  area             VARCHAR(10)  DEFAULT NULL,
-  numero_sei       VARCHAR(50)  DEFAULT NULL,
-  numero_contrato  VARCHAR(50)  DEFAULT NULL,
-  vigencia_inicio  DATE         DEFAULT NULL,
-  vigencia_fim     DATE         DEFAULT NULL
+  area                   VARCHAR(10)  DEFAULT NULL,
+  responsavel_financeiro VARCHAR(100) DEFAULT NULL,
+  numero_sei             VARCHAR(50)  DEFAULT NULL,
+  valor_contrato         VARCHAR(50)  DEFAULT NULL,
+  vigencia_inicio        DATE         DEFAULT NULL,
+  vigencia_fim           DATE         DEFAULT NULL
 );
 
 INSERT INTO contatos (tipo, nome, endereco, telefone, email, responsavel, area) VALUES

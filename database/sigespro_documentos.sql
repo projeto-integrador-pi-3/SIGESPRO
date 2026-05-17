@@ -33,6 +33,24 @@ CREATE TABLE `documentos` (
   CONSTRAINT `fk_documentos_procedimentos` FOREIGN KEY (`procedimento_id`) REFERENCES `procedimentos` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `templates_documentos`
+--
+
+DROP TABLE IF EXISTS `templates_documentos`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `templates_documentos` (
+  `id`         int NOT NULL AUTO_INCREMENT,
+  `nome`       varchar(100) NOT NULL,
+  `categoria`  varchar(100) NOT NULL,
+  `conteudo`   longtext NOT NULL,
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
