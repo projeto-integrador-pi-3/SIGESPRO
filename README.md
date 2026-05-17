@@ -15,37 +15,12 @@ Portal interno de gestão de sistemas e procedimentos de TI da SMSUB/SP.
 - Docker (ambiente local)
 - Railway (deploy)
 
-## Rodar localmente
+## Rodar localmente (Mac/Linux)
 
 ### Pré-requisitos
 
 - [Docker Desktop](https://www.docker.com/products/docker-desktop/) (inclui Docker Compose)
 - Git
-
-#### Windows: configuração adicional
-
-O Docker Desktop no Windows exige o WSL2 (Subsistema do Windows para Linux). Sem ele, os containers não sobem.
-
-**Checklist antes de começar:**
-
-1. **Ative o WSL2** — abra o PowerShell como administrador e execute:
-   ```powershell
-   wsl --install
-   ```
-   Reinicie o computador quando solicitado.
-
-2. **Instale o Docker Desktop** — durante a instalação, marque a opção _"Use WSL 2 instead of Hyper-V"_.
-
-3. **Verifique se o Docker está funcionando** — abra o PowerShell e execute:
-   ```powershell
-   docker --version
-   docker compose version
-   ```
-   Ambos devem retornar uma versão sem erro.
-
-4. **Use PowerShell ou Git Bash** para todos os comandos abaixo. O Prompt de Comando (CMD) não suporta alguns deles.
-
----
 
 ### Passo a passo
 
@@ -58,19 +33,7 @@ cd SIGESPRO
 
 **2. Crie o arquivo `.env`**
 
-> **Windows:** não crie o arquivo pelo Explorer — ele pode salvar como `.env.txt` sem você perceber. Use o terminal:
->
-> ```powershell
-> # PowerShell
-> Copy-Item .env.example .env
-> ```
-> Se não houver `.env.example`, crie direto:
-> ```powershell
-> New-Item .env -ItemType File
-> notepad .env
-> ```
-
-Abra o `.env` e preencha com o conteúdo abaixo. As variáveis de banco já estão corretas para o Docker:
+Crie um arquivo `.env` na raiz do projeto com o conteúdo abaixo. As variáveis de banco já estão corretas para o Docker:
 
 ```env
 DB_HOST=db
@@ -125,6 +88,112 @@ docker compose down -v
 
 > O `docker-compose.yml` usa o `docker/Dockerfile` (servidor embutido do PHP). O `Dockerfile` na raiz é exclusivo para o deploy no Railway.
 
+---
+
+## Rodar localmente (Windows)
+
+### Pré-requisitos
+
+**1. Ative o WSL2**
+
+O Docker Desktop no Windows exige o WSL2. Abra o PowerShell como administrador e execute:
+
+```powershell
+wsl --install
+```
+
+Reinicie o computador quando solicitado.
+
+**2. Instale o Docker Desktop**
+
+Baixe em [docker.com/products/docker-desktop](https://www.docker.com/products/docker-desktop/). Durante a instalação, mantenha marcada a opção _"Use WSL 2 instead of Hyper-V"_.
+
+**3. Instale o Git**
+
+Baixe em [git-scm.com](https://git-scm.com/). Na instalação, mantenha as opções padrão.
+
+**4. Verifique a instalação**
+
+Abra o PowerShell e confirme que os dois comandos retornam uma versão:
+
+```powershell
+docker --version
+docker compose version
+```
+
+> Use sempre **PowerShell** para os comandos abaixo. O Prompt de Comando (CMD) não funciona com alguns deles.
+
+### Passo a passo
+
+**1. Clone o repositório**
+
+```powershell
+git clone https://github.com/projeto-integrador-pi-3/SIGESPRO.git
+cd SIGESPRO
+```
+
+**2. Crie o arquivo `.env`**
+
+Não crie o arquivo pelo Explorer — o Windows pode salvar como `.env.txt` sem avisar. Use o PowerShell:
+
+```powershell
+New-Item .env -ItemType File
+notepad .env
+```
+
+O Notepad vai abrir. Cole o conteúdo abaixo, salve e feche:
+
+```env
+DB_HOST=db
+DB_PORT=3306
+DB_USER=sigespro
+DB_PASSWORD=sigespro
+DB_NAME=sigespro
+
+APP_URL=http://localhost:8000
+
+CLOUDINARY_CLOUD_NAME=
+CLOUDINARY_API_KEY=
+CLOUDINARY_API_SECRET=
+```
+
+> As variáveis do Cloudinary são obrigatórias para testar o módulo de documentos. Solicite as credenciais do projeto ao time antes de subir o ambiente.
+
+**3. Suba os containers**
+
+```powershell
+docker compose up --build
+```
+
+O Docker irá subir a aplicação PHP e o banco MySQL. Na primeira execução, o `docker/init.sql` é aplicado automaticamente, criando todas as tabelas e o usuário admin padrão.
+
+> Se você já rodou o projeto antes e o banco não inicializou corretamente, apague o volume antigo com `docker compose down -v` antes de subir novamente.
+
+**4. Acesse o sistema**
+
+Abra `http://localhost:8000` no navegador e faça login com:
+
+| Campo | Valor |
+|-------|-------|
+| E-mail | `admin@sigespro.dev` |
+| Senha | `admin123` |
+
+> Este usuário existe apenas no ambiente local. Nunca suba credenciais de teste para produção.
+
+**5. Parar os containers**
+
+```powershell
+docker compose down
+```
+
+Para apagar também os dados do banco:
+
+```powershell
+docker compose down -v
+```
+
+---
+
 ## Resolução de problemas
 
 ### `docker compose` não é reconhecido
@@ -137,7 +206,7 @@ O container do banco usa a porta 3306. Se você tem MySQL instalado localmente (
 
 **Solução:** pare o serviço MySQL local antes de subir os containers.
 
-- **Windows (Serviços):** pressione `Win + R`, digite `services.msc`, encontre _MySQL_ e clique em _Parar_.
+- **Windows:** pressione `Win + R`, digite `services.msc`, encontre _MySQL_ e clique em _Parar_.
 - **XAMPP:** abra o painel do XAMPP e clique em _Stop_ na linha do MySQL.
 
 ### O banco sobe vazio (tabelas não criadas)
