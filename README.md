@@ -92,11 +92,23 @@ docker compose down -v
 
 ## Rodar localmente (Windows)
 
+> Requer Windows 10 versão 2004 (Build 19041) ou superior, ou Windows 11. Para verificar: `Win + R` → `winver`.
+
 ### Pré-requisitos
 
-**1. Ative o WSL2**
+> Use sempre **PowerShell** para todos os comandos desta seção. O Prompt de Comando (CMD) não funciona com alguns deles.
 
-O Docker Desktop no Windows exige o WSL2. Abra o PowerShell como administrador e execute:
+**1. WSL2**
+
+Verifique se já está instalado:
+
+```powershell
+wsl -l -v
+```
+
+Se retornar uma distribuição com `VERSION 2`, o WSL2 já está ativo — pule para o passo 2.
+
+Se não, instale. Abra o PowerShell **como administrador** e execute:
 
 ```powershell
 wsl --install
@@ -104,24 +116,43 @@ wsl --install
 
 Reinicie o computador quando solicitado.
 
-**2. Instale o Docker Desktop**
+**2. Docker Desktop**
 
-Baixe em [docker.com/products/docker-desktop](https://www.docker.com/products/docker-desktop/). Durante a instalação, mantenha marcada a opção _"Use WSL 2 instead of Hyper-V"_.
+Verifique se já está instalado:
 
-**3. Instale o Git**
+```powershell
+docker --version
+```
 
-Baixe em [git-scm.com](https://git-scm.com/). Na instalação, mantenha as opções padrão.
+Se retornar uma versão, pule para o passo 3.
 
-**4. Verifique a instalação**
+Se não, baixe em [docker.com/products/docker-desktop](https://www.docker.com/products/docker-desktop/). Durante a instalação, mantenha marcada a opção _"Use WSL 2 instead of Hyper-V"_.
 
-Abra o PowerShell e confirme que os dois comandos retornam uma versão:
+Após instalar, **abra o Docker Desktop** pela bandeja do sistema e aguarde até o ícone ficar estável (pode levar alguns minutos na primeira vez). O Docker só responde a comandos quando está em execução.
+
+**3. Git**
+
+Verifique se já está instalado:
+
+```powershell
+git --version
+```
+
+Se retornar uma versão, pule para o passo a passo.
+
+Se não, baixe em [git-scm.com](https://git-scm.com/) e mantenha as opções padrão na instalação.
+
+**4. Confirmação final**
+
+Com o Docker Desktop aberto, execute no PowerShell:
 
 ```powershell
 docker --version
 docker compose version
+git --version
 ```
 
-> Use sempre **PowerShell** para os comandos abaixo. O Prompt de Comando (CMD) não funciona com alguns deles.
+Os três devem retornar uma versão sem erro. Se algum falhar, revise o passo correspondente acima.
 
 ### Passo a passo
 
@@ -137,7 +168,7 @@ cd SIGESPRO
 Não crie o arquivo pelo Explorer — o Windows pode salvar como `.env.txt` sem avisar. Use o PowerShell:
 
 ```powershell
-New-Item .env -ItemType File
+New-Item -Force .env -ItemType File
 notepad .env
 ```
 
