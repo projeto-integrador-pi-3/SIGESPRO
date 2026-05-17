@@ -9,6 +9,9 @@ Portal interno de gestão de sistemas e procedimentos de TI da SMSUB/SP.
 - PHP 8.4
 - MySQL 8.0
 - Cloudinary (armazenamento de arquivos)
+- Google Maps Places API (autocomplete de endereço no módulo de contatos)
+- TinyMCE (editor de texto rico nos módulos de procedimentos e templates)
+- html2pdf.js (geração de PDF client-side no módulo de documentos)
 - Docker (ambiente local)
 - Railway (deploy)
 
@@ -18,6 +21,31 @@ Portal interno de gestão de sistemas e procedimentos de TI da SMSUB/SP.
 
 - [Docker Desktop](https://www.docker.com/products/docker-desktop/) (inclui Docker Compose)
 - Git
+
+#### Windows: configuração adicional
+
+O Docker Desktop no Windows exige o WSL2 (Subsistema do Windows para Linux). Sem ele, os containers não sobem.
+
+**Checklist antes de começar:**
+
+1. **Ative o WSL2** — abra o PowerShell como administrador e execute:
+   ```powershell
+   wsl --install
+   ```
+   Reinicie o computador quando solicitado.
+
+2. **Instale o Docker Desktop** — durante a instalação, marque a opção _"Use WSL 2 instead of Hyper-V"_.
+
+3. **Verifique se o Docker está funcionando** — abra o PowerShell e execute:
+   ```powershell
+   docker --version
+   docker compose version
+   ```
+   Ambos devem retornar uma versão sem erro.
+
+4. **Use PowerShell ou Git Bash** para todos os comandos abaixo. O Prompt de Comando (CMD) não suporta alguns deles.
+
+---
 
 ### Passo a passo
 
@@ -30,7 +58,19 @@ cd SIGESPRO
 
 **2. Crie o arquivo `.env`**
 
-Crie um arquivo `.env` na raiz do projeto com o conteúdo abaixo. Para rodar localmente, as variáveis de banco já estão preenchidas com os valores do Docker:
+> **Windows:** não crie o arquivo pelo Explorer — ele pode salvar como `.env.txt` sem você perceber. Use o terminal:
+>
+> ```powershell
+> # PowerShell
+> Copy-Item .env.example .env
+> ```
+> Se não houver `.env.example`, crie direto:
+> ```powershell
+> New-Item .env -ItemType File
+> notepad .env
+> ```
+
+Abra o `.env` e preencha com o conteúdo abaixo. As variáveis de banco já estão corretas para o Docker:
 
 ```env
 DB_HOST=db
@@ -85,6 +125,36 @@ docker compose down -v
 
 > O `docker-compose.yml` usa o `docker/Dockerfile` (servidor embutido do PHP). O `Dockerfile` na raiz é exclusivo para o deploy no Railway.
 
+## Resolução de problemas
+
+### `docker compose` não é reconhecido
+
+Você tem uma versão antiga do Docker que usa `docker-compose` (com hífen). Atualize o Docker Desktop para a versão mais recente, ou substitua todos os comandos `docker compose` por `docker-compose`.
+
+### Porta 3306 já está em uso
+
+O container do banco usa a porta 3306. Se você tem MySQL instalado localmente (XAMPP, MySQL Workbench, etc.), haverá conflito.
+
+**Solução:** pare o serviço MySQL local antes de subir os containers.
+
+- **Windows (Serviços):** pressione `Win + R`, digite `services.msc`, encontre _MySQL_ e clique em _Parar_.
+- **XAMPP:** abra o painel do XAMPP e clique em _Stop_ na linha do MySQL.
+
+### O banco sobe vazio (tabelas não criadas)
+
+O `init.sql` só é executado na **primeira vez** que o volume do banco é criado. Se o volume já existia de uma execução anterior com erro, o banco fica vazio.
+
+**Solução:** apague o volume e suba novamente:
+
+```bash
+docker compose down -v
+docker compose up --build
+```
+
+### A página abre mas mostra erro de conexão com o banco
+
+Verifique se o arquivo `.env` está na raiz do projeto (não dentro de nenhuma pasta) e se as variáveis de banco estão exatamente como no passo 2. Um `.env.txt` ou `.env ` (com espaço no nome) não será lido.
+
 ## Variáveis de ambiente
 
 ### Ambiente local (`.env`)
@@ -121,7 +191,7 @@ Configurar manualmente apenas:
 - [x] **JavaScript** — Fetch API para CRUD assíncrono em todos os módulos
 - [x] **Nuvem** — Railway (hospedagem) + Cloudinary (armazenamento de arquivos)
 - [x] **Controle de versão** — Git + GitHub com branches e pull requests
-- [x] **API** — Consumo da API Cloudinary para upload e gerenciamento de documentos
+- [x] **API** — Cloudinary (upload de arquivos e PDFs gerados), Google Maps Places (autocomplete de endereço)
 - [x] **Acessibilidade** — Labels vinculados a inputs, `aria-label` nos botões e `autocomplete` nos formulários
 - [x] **Integração contínua** — GitHub Actions: verificação de sintaxe PHP e build Docker em todo PR para main
 - [ ] **Testes** — Em desenvolvimento
@@ -136,7 +206,8 @@ Configurar manualmente apenas:
 ├── documentos/     # Módulo de documentos
 ├── admin/          # Módulo de usuários e administração
 ├── login/          # Autenticação (login, logout, verificação de sessão)
-├── database/       # Scripts SQL de criação das tabelas
+├── database/       # Scripts SQL de referência das tabelas e migrations
+│   └── migrations/ # Migrations para atualizar ambientes existentes
 ├── docker/         # Ambiente local (Dockerfile, init.sql)
 ├── js/             # Scripts do frontend
 ├── .github/        # Workflows de integração contínua
