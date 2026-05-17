@@ -18,24 +18,12 @@ if (!$row || !$row['arquivo']) {
     exit;
 }
 
-// raw/upload retorna 401 nesta conta; normaliza para image/upload que é público
+// Normaliza raw/upload (legado) para image/upload
 $url = str_replace('/raw/upload/', '/image/upload/', $row['arquivo']);
 
-$ch = curl_init($url);
-curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
-$data     = curl_exec($ch);
-$httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-curl_close($ch);
+// Insere fl_attachment para forçar download no browser
+$nomeArquivo = preg_replace('/[^a-zA-Z0-9_\-]/', '_', $row['nome']);
+$url = str_replace('/image/upload/', '/image/upload/fl_attachment:' . $nomeArquivo . '/', $url);
 
-if ($httpCode !== 200 || !$data) {
-    http_response_code(502);
-    exit;
-}
-
-$filename = preg_replace('/[^a-zA-Z0-9 _\-]/', '_', $row['nome']) . '.pdf';
-
-header('Content-Type: application/pdf');
-header('Content-Disposition: attachment; filename="' . $filename . '"');
-header('Content-Length: ' . strlen($data));
-echo $data;
+header('Location: ' . $url);
+exit;
