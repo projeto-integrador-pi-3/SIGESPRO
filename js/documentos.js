@@ -101,26 +101,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Baixar
     if (e.target.closest('.btn-baixar')) {
-      const btn = e.target.closest('.btn-baixar');
+      const btn     = e.target.closest('.btn-baixar');
       const arquivo = btn.dataset.arquivo;
-      const nome    = btn.dataset.nome.replace(/[^a-zA-Z0-9 _\-]/g, '_');
 
-      btn.disabled = true;
-      fetch(arquivo)
-        .then(r => {
-          if (!r.ok) throw new Error('HTTP ' + r.status);
-          return r.blob();
-        })
-        .then(blob => {
-          const url = URL.createObjectURL(blob);
-          const a   = document.createElement('a');
-          a.href     = url;
-          a.download = nome + '.pdf';
-          a.click();
-          URL.revokeObjectURL(url);
-        })
-        .catch(() => window.open(arquivo, '_blank'))
-        .finally(() => { btn.disabled = false; });
+      // fl_attachment força Content-Disposition: attachment → browser baixa sem abrir o PDF viewer
+      const url = arquivo.replace('/image/upload/', '/image/upload/fl_attachment/');
+      window.location.href = url;
     }
 
     // Excluir
