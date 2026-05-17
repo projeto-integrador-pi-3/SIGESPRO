@@ -7,18 +7,17 @@ function cloudinary_upload($fileTmp, $originalName) {
     $timestamp = time();
     $folder    = 'sigespro';
 
-    $signature = sha1("access_mode=public&folder=$folder&timestamp=$timestamp" . $apiSecret);
+    $signature = sha1("folder=$folder&timestamp=$timestamp" . $apiSecret);
 
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, "https://api.cloudinary.com/v1_1/$cloudName/auto/upload");
     curl_setopt($ch, CURLOPT_POST, true);
     curl_setopt($ch, CURLOPT_POSTFIELDS, [
-        'file'        => new CURLFile($fileTmp, '', $originalName),
-        'api_key'     => $apiKey,
-        'access_mode' => 'public',
-        'timestamp'   => $timestamp,
-        'signature'   => $signature,
-        'folder'      => $folder,
+        'file'      => new CURLFile($fileTmp, '', $originalName),
+        'api_key'   => $apiKey,
+        'timestamp' => $timestamp,
+        'signature' => $signature,
+        'folder'    => $folder,
     ]);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     $response = curl_exec($ch);
@@ -35,7 +34,7 @@ function cloudinary_upload_base64($base64Data, $filename) {
     $timestamp = time();
     $folder    = 'sigespro';
 
-    $signature = sha1("access_mode=public&folder=$folder&timestamp=$timestamp" . $apiSecret);
+    $signature = sha1("folder=$folder&timestamp=$timestamp" . $apiSecret);
 
     $tmpBase = tempnam(sys_get_temp_dir(), 'doc_');
     $tmpFile = $tmpBase . '.pdf';
@@ -45,12 +44,11 @@ function cloudinary_upload_base64($base64Data, $filename) {
     curl_setopt($ch, CURLOPT_URL, "https://api.cloudinary.com/v1_1/$cloudName/auto/upload");
     curl_setopt($ch, CURLOPT_POST, true);
     curl_setopt($ch, CURLOPT_POSTFIELDS, [
-        'file'        => new CURLFile($tmpFile, 'application/pdf', $filename),
-        'api_key'     => $apiKey,
-        'access_mode' => 'public',
-        'timestamp'   => $timestamp,
-        'signature'   => $signature,
-        'folder'      => $folder,
+        'file'      => new CURLFile($tmpFile, 'application/pdf', $filename),
+        'api_key'   => $apiKey,
+        'timestamp' => $timestamp,
+        'signature' => $signature,
+        'folder'    => $folder,
     ]);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     $response = curl_exec($ch);
