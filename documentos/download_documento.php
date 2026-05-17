@@ -18,10 +18,17 @@ if (!$row || !$row['arquivo']) {
     exit;
 }
 
-$url = str_replace('/image/upload/', '/raw/upload/', $row['arquivo']);
+// raw/upload retorna 401 nesta conta; normaliza para image/upload que é público
+$url = str_replace('/raw/upload/', '/image/upload/', $row['arquivo']);
 
-$data = file_get_contents($url);
-if ($data === false) {
+$ch = curl_init($url);
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+$data     = curl_exec($ch);
+$httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+curl_close($ch);
+
+if ($httpCode !== 200 || !$data) {
     http_response_code(502);
     exit;
 }
