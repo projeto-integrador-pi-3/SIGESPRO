@@ -75,9 +75,11 @@ document.addEventListener('DOMContentLoaded', () => {
             <td>${doc.responsavel}</td>
             <td>${dataFormatada}</td>
             <td class="text-center">
-              <a href="${BASE_URL}/documentos/download_documento.php?id=${doc.id}" class="btn btn-sm btn-outline-success me-1">
+              <button class="btn btn-sm btn-outline-success btn-baixar me-1"
+                data-arquivo="${doc.arquivo}"
+                data-nome="${doc.nome}">
                 <i class="bi bi-download"></i> Baixar
-              </a>
+              </button>
 
               <a href="${BASE_URL}/documentos/editar_documento.php?id=${doc.id}" class="btn btn-sm btn-outline-warning me-1">
                 <i class="bi bi-pencil"></i> Editar
@@ -96,6 +98,30 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Delegação de eventos para DataTable
   document.addEventListener('click', e => {
+
+    // Baixar
+    if (e.target.closest('.btn-baixar')) {
+      const btn = e.target.closest('.btn-baixar');
+      const arquivo = btn.dataset.arquivo;
+      const nome    = btn.dataset.nome.replace(/[^a-zA-Z0-9 _\-]/g, '_');
+
+      btn.disabled = true;
+      fetch(arquivo)
+        .then(r => {
+          if (!r.ok) throw new Error('HTTP ' + r.status);
+          return r.blob();
+        })
+        .then(blob => {
+          const url = URL.createObjectURL(blob);
+          const a   = document.createElement('a');
+          a.href     = url;
+          a.download = nome + '.pdf';
+          a.click();
+          URL.revokeObjectURL(url);
+        })
+        .catch(() => window.open(arquivo, '_blank'))
+        .finally(() => { btn.disabled = false; });
+    }
 
     // Excluir
     if (e.target.closest('.btn-excluir')) {
