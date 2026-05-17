@@ -21,9 +21,27 @@ if (!$row || !$row['arquivo']) {
 // Normaliza raw/upload (legado) para image/upload
 $url = str_replace('/raw/upload/', '/image/upload/', $row['arquivo']);
 
-// Insere fl_attachment para forçar download no browser
-$nomeArquivo = preg_replace('/[^a-zA-Z0-9_\-]/', '_', $row['nome']);
-$url = str_replace('/image/upload/', '/image/upload/fl_attachment:' . $nomeArquivo . '/', $url);
+$ch = curl_init($url);
+curl_setopt_array($ch, [
+    CURLOPT_RETURNTRANSFER => true,
+    CURLOPT_FOLLOWLOCATION => true,
+    CURLOPT_SSL_VERIFYPEER => false,
+    CURLOPT_TIMEOUT        => 30,
+    CURLOPT_USERAGENT      => 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36',
+]);
+$data     = curl_exec($ch);
+$httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+$curlErr  = curl_error($ch);
+curl_close($ch);
 
-header('Location: ' . $url);
-exit;
+if ($httpCode !== 200 || !$data) {
+    header('Content-Type: text/plain');
+    echo "HTTP: $httpCode | URL: $url | cURL error: $curlErr";
+    exit;
+}
+
+$filename = preg_replace('/[^a-zA-Z0-9 _\-]/', '_', $row['nome']) . '.pdf';
+header('Content-Type: application/pdf');
+header('Content-Disposition: attachment; filename="' . $filename . '"');
+header('Content-Length: ' . strlen($data));
+echo $data;
