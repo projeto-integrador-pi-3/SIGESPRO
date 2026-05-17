@@ -23,14 +23,12 @@ DROP TABLE IF EXISTS `procedimentos`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `procedimentos` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `nome` varchar(100) NOT NULL,
+  `id`        int NOT NULL AUTO_INCREMENT,
+  `titulo`    varchar(100) NOT NULL,
+  `resumo`    text,
   `descricao` text,
-  `tipo` varchar(50) DEFAULT NULL,
-  `sistema_id` int DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `fk_procedimentos_sistemas` (`sistema_id`),
-  CONSTRAINT `fk_procedimentos_sistemas` FOREIGN KEY (`sistema_id`) REFERENCES `sistemas` (`id`) ON DELETE RESTRICT
+  `tipo`      varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
