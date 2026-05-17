@@ -23,15 +23,14 @@ DROP TABLE IF EXISTS `documentos`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `documentos` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `nome` varchar(100) NOT NULL,
-  `descricao` text,
-  `caminho_arquivo` text,
-  `procedimento_id` int DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `fk_documentos_procedimentos` (`procedimento_id`),
-  CONSTRAINT `fk_documentos_procedimentos` FOREIGN KEY (`procedimento_id`) REFERENCES `procedimentos` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  `id`          int NOT NULL AUTO_INCREMENT,
+  `nome`        varchar(100) NOT NULL,
+  `categoria`   varchar(100) DEFAULT NULL,
+  `responsavel` varchar(100) DEFAULT NULL,
+  `data_upload` datetime DEFAULT CURRENT_TIMESTAMP,
+  `arquivo`     text,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
